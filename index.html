@@ -113,6 +113,7 @@ details summary{cursor:pointer;font-weight:600}
   <a class="sub" href="#s48">4.8 Shift micro-ops</a>
   <a class="sub" href="#s49">4.9 Arithmetic-logic-shift unit</a>
   <a class="sub" href="#s4q">4.10 Solved questions</a>
+  <a class="sub" href="#s4x">4.11 Exam-style questions</a>
   <a href="#ch5" class="ch">5 · Basic Computer</a>
   <a class="sub" href="#s51">5.1 Instruction codes</a>
   <a class="sub" href="#s52">5.2 Registers</a>
@@ -125,6 +126,7 @@ details summary{cursor:pointer;font-weight:600}
   <a class="sub" href="#s59">5.9 I/O &amp; interrupt</a>
   <a class="sub" href="#s510">5.10 Full description + AC logic</a>
   <a class="sub" href="#s511">5.11 Full trace examples</a>
+  <a class="sub" href="#s5x">5.12 Exam-style questions</a>
   <a href="#ch6" class="ch">6 · Programming the Basic Computer</a>
   <a class="sub" href="#s61">6.1 Machine language</a>
   <a class="sub" href="#s62">6.2 Assembly language</a>
@@ -133,6 +135,7 @@ details summary{cursor:pointer;font-weight:600}
   <a class="sub" href="#s65">6.5 Arithmetic &amp; logic programs</a>
   <a class="sub" href="#s66">6.6 Subroutines</a>
   <a class="sub" href="#s67">6.7 I/O programming &amp; interrupts</a>
+  <a class="sub" href="#s6x">6.8 Exam-style questions</a>
   <a href="#gloss" class="ch">Glossary TR ↔ EN</a>
   <a href="#cheat" class="ch">Exam cheat sheet</a>
   <a href="#practice" class="ch">Practice questions</a>
@@ -899,6 +902,213 @@ R = 1001 1100. Give the result of shl, shr, cil, cir, ashr and ashl, and say whe
 shl = 0011 1000 · shr = 0100 1110 · cil = 0011 1001 · cir = 0100 1110 · ashr = 1100 1110 (sign kept) · ashl = 0011 1000. ashl <b>overflows</b>: R<sub>7</sub>⊕R<sub>6</sub> = 1⊕0 = 1, so the sign changed from negative to positive.
 </details>
 </div>
+
+<h3 id="s4x">4.11 Exam-style questions <span class="tr">Sınav soruları</span></h3>
+<p>The questions below cover Bölüm 4 in the formats you are likely to see on an exam. Try each group first, then open its answer key.</p>
+
+<h4>A · Multiple choice <span class="tr">Çoktan seçmeli</span></h4>
+<ol>
+<li>A bus connects 8 registers of 32 bits using multiplexers. What is needed?<br>A) 8 MUXes of 32×1 &nbsp; B) 32 MUXes of 8×1 &nbsp; C) 32 MUXes of 3×1 &nbsp; D) 3 MUXes of 32×1</li>
+<li>In <code>P: R2 ← R1</code>, when is R2 loaded?<br>A) as soon as P becomes 1 &nbsp; B) at the clock edge while P = 1 &nbsp; C) whenever R1 changes &nbsp; D) at every clock edge</li>
+<li>A three-state buffer with control input C = 0 gives:<br>A) logic 0 &nbsp; B) logic 1 &nbsp; C) the input A &nbsp; D) high impedance</li>
+<li><code>R3 ← R1 + R2' + 1</code> computes:<br>A) R1 + R2 &nbsp; B) R1 − R2 &nbsp; C) R2 − R1 &nbsp; D) R1 − R2 − 1</li>
+<li>In the arithmetic circuit (S<sub>1</sub>S<sub>0</sub>C<sub>in</sub>), the select code 110 gives:<br>A) A + B &nbsp; B) A − 1 &nbsp; C) A + 1 &nbsp; D) A</li>
+<li>How many different logic functions of two variables exist?<br>A) 4 &nbsp; B) 8 &nbsp; C) 16 &nbsp; D) 32</li>
+<li>Which micro-operation is used to clear chosen bits (masking)?<br>A) OR &nbsp; B) AND &nbsp; C) XOR &nbsp; D) NOT</li>
+<li><code>ashr</code> applied to 1100 1000 gives:<br>A) 0110 0100 &nbsp; B) 1110 0100 &nbsp; C) 1001 0000 &nbsp; D) 0110 0101</li>
+<li>Overflow after an arithmetic shift left is detected by:<br>A) R<sub>0</sub> ⊕ R<sub>1</sub> &nbsp; B) R<sub>n−1</sub> ⊕ R<sub>n−2</sub> &nbsp; C) R<sub>n−1</sub> ∧ R<sub>n−2</sub> &nbsp; D) the carry out</li>
+<li><code>cir</code> applied to 1001 0011 gives:<br>A) 0100 1001 &nbsp; B) 1100 1001 &nbsp; C) 0010 0111 &nbsp; D) 0010 0110</li>
+</ol>
+<details><summary>Show answer</summary>
+1-B (n = 32 MUXes, one input per register → 8×1) · 2-B · 3-D · 4-B · 5-B (Y = 1…1 = −1, C<sub>in</sub> = 0) · 6-C (2<sup>2<sup>2</sup></sup> = 16) · 7-B · 8-B (the sign bit stays 1 and is copied right) · 9-B · 10-B (bit 0 = 1 wraps around to bit 7)
+</details>
+
+<h4>B · True / False <span class="tr">Doğru / Yanlış</span></h4>
+<ol>
+<li>After <code>R2 ← R1</code>, the contents of R1 are lost.</li>
+<li>A MUX-based bus for k registers of n bits needs n multiplexers of size k×1.</li>
+<li>Two three-state buffers on the same bus line may be enabled at the same time.</li>
+<li>An n-bit binary adder is built from n full adders.</li>
+<li>A binary incrementer can be built from half adders.</li>
+<li>In the arithmetic circuit, S<sub>1</sub>S<sub>0</sub>C<sub>in</sub> = 100 gives D = A − 1.</li>
+<li>A logical shift puts 0 into the vacated bit position.</li>
+<li>An arithmetic shift right changes the sign bit.</li>
+<li>The ALU performs the operation and the destination register is loaded within one clock pulse.</li>
+<li>In a micro-operation such as <code>R1 ← R1 + R2</code>, the symbol + means logical OR.</li>
+</ol>
+<details><summary>Show answer</summary>
+1-F: the source does not change <span class="tr">kaynak yazaç değişmez</span>. · 2-T · 3-F: the outputs would fight each other; a decoder makes sure only one buffer is enabled. · 4-T · 5-T · 6-F: 100 gives D = A (transfer); A − 1 is 110. · 7-T · 8-F: the sign bit stays where it is. · 9-T · 10-F: + means arithmetic addition and ∨ means OR. (+ means OR only inside a control function.)
+</details>
+
+<h4>C · Fill in the blanks <span class="tr">Boşluk doldurma</span></h4>
+<ol>
+<li>An elementary operation performed on data in registers during one clock pulse is a ______.</li>
+<li>The register that holds the memory address is ______.</li>
+<li>The Boolean variable that decides whether a transfer happens is called the ______ function.</li>
+<li>The third state of a three-state buffer is ______.</li>
+<li>2's complement = 1's complement + ______.</li>
+<li>The arithmetic circuit always computes D = A + ______ + C<sub>in</sub>.</li>
+<li>A 4×1 multiplexer has ______ select lines.</li>
+<li>In a circular shift, the serial output is connected to the ______.</li>
+<li>An arithmetic shift left multiplies a signed number by ______.</li>
+<li>A bus for 16 registers built with three-state buffers needs a ______ decoder.</li>
+</ol>
+<details><summary>Show answer</summary>
+1 micro-operation <span class="tr">mikro işlem</span> · 2 AR (MAR) · 3 control <span class="tr">denetim fonksiyonu</span> · 4 high impedance <span class="tr">yüksek direnç</span> · 5 1 · 6 Y (the MUX output) · 7 2 · 8 serial input · 9 2 · 10 4×16
+</details>
+
+<h4>D · Matching TR ↔ EN <span class="tr">Eşleştirme</span></h4>
+<table>
+<tr><th>Türkçe</th><th>English (shuffled)</th></tr>
+<tr><td>1. yazaç</td><td>a. carry</td></tr>
+<tr><td>2. kaydırma</td><td>b. three-state buffer</td></tr>
+<tr><td>3. elde</td><td>c. register</td></tr>
+<tr><td>4. üç durumlu tampon</td><td>d. complement</td></tr>
+<tr><td>5. tümleyen</td><td>e. shift</td></tr>
+<tr><td>6. ortak veri yolu</td><td>f. common bus</td></tr>
+</table>
+<details><summary>Show answer</summary>1-c · 2-e · 3-a · 4-b · 5-d · 6-f</details>
+
+<h4>E · Classic questions <span class="tr">Klasik sorular</span></h4>
+<ol>
+<li><p>The 4-bit arithmetic circuit has A = 1101 and B = 0111. Give D and C<sub>out</sub> for all 8 combinations of S<sub>1</sub>S<sub>0</sub>C<sub>in</sub>.</p>
+<details><summary>Show answer</summary>
+B' = 1000.
+<table>
+<tr><th>S1 S0 Cin</th><th>Operation</th><th>D</th><th>Cout</th></tr>
+<tr><td>000</td><td>1101 + 0111</td><td class="mono">0100</td><td>1</td></tr>
+<tr><td>001</td><td>1101 + 0111 + 1</td><td class="mono">0101</td><td>1</td></tr>
+<tr><td>010</td><td>1101 + 1000</td><td class="mono">0101</td><td>1</td></tr>
+<tr><td>011</td><td>1101 + 1000 + 1</td><td class="mono">0110 (13 − 7 = 6)</td><td>1</td></tr>
+<tr><td>100</td><td>1101 + 0000</td><td class="mono">1101</td><td>0</td></tr>
+<tr><td>101</td><td>1101 + 0000 + 1</td><td class="mono">1110</td><td>0</td></tr>
+<tr><td>110</td><td>1101 + 1111</td><td class="mono">1100</td><td>1</td></tr>
+<tr><td>111</td><td>1101 + 1111 + 1</td><td class="mono">1101</td><td>1</td></tr>
+</table></details></li>
+<li><p>A = 1010 1100 and B = 1111 0000. Give the result of (a) selective set A ∨ B, (b) selective complement A ⊕ B, (c) selective clear A ∧ B', (d) mask A ∧ B.</p>
+<details><summary>Show answer</summary>(a) 1111 1100 · (b) 0101 1100 · (c) 1010 1100 ∧ 0000 1111 = 0000 1100 · (d) 1010 0000</details></li>
+<li><p>Write RTL statements with control functions for: <code>if (T1 = 1) then (R1 ← R2) else if (T2 = 1) then (R1 ← R3)</code>. What drive R1's Load input and the MUX select?</p>
+<details><summary>Show answer</summary><pre>T1:    R1 ← R2
+T1'T2: R1 ← R3</pre>Load(R1) = T1 + T1'T2 = <b>T1 + T2</b>. A 2×1 MUX in front of R1 has select = T1 (1 → R2, 0 → R3).</details></li>
+<li><p>R = 0101 1010 (+90), an 8-bit signed number. Find ashl R and ashr R. Does ashl overflow?</p>
+<details><summary>Show answer</summary>ashl = 1011 0100. V = R<sub>7</sub> ⊕ R<sub>6</sub> = 0 ⊕ 1 = 1, so it <b>overflows</b> (180 does not fit; the result reads as −76). ashr = 0010 1101 = +45 ✔</details></li>
+<li><p>A system has 16 registers of 8 bits. Compare the MUX bus and the three-state bus: how many MUXes and of what size, how many buffers, and which decoder?</p>
+<details><summary>Show answer</summary>MUX bus: 8 MUXes of 16×1, with 4 select lines. Three-state bus: 16 × 8 = 128 buffers and one 4×16 decoder, whose output k enables all 8 buffers of register k.</details></li>
+</ol>
+
+<h4>F · Drawing questions <span class="tr">Çizim soruları</span></h4>
+<ol>
+<li><p>Draw a common bus system for <b>4 registers (A, B, C, D) of 2 bits each</b> using multiplexers.</p>
+<details><summary>Show answer</summary>
+<figure>
+<svg viewBox="0 0 620 270" style="max-width:620px" role="img" aria-label="bus for 4 registers of 2 bits">
+  <g class="sm acc">
+    <text x="140" y="48" text-anchor="middle">D1</text><text x="180" y="48" text-anchor="middle">C1</text><text x="220" y="48" text-anchor="middle">B1</text><text x="260" y="48" text-anchor="middle">A1</text>
+    <text x="380" y="48" text-anchor="middle">D0</text><text x="420" y="48" text-anchor="middle">C0</text><text x="460" y="48" text-anchor="middle">B0</text><text x="500" y="48" text-anchor="middle">A0</text>
+  </g>
+  <g class="w">
+    <path d="M140 54V98" marker-end="url(#ar)"/><path d="M180 54V98" marker-end="url(#ar)"/><path d="M220 54V98" marker-end="url(#ar)"/><path d="M260 54V98" marker-end="url(#ar)"/>
+    <path d="M380 54V98" marker-end="url(#ar)"/><path d="M420 54V98" marker-end="url(#ar)"/><path d="M460 54V98" marker-end="url(#ar)"/><path d="M500 54V98" marker-end="url(#ar)"/>
+  </g>
+  <rect class="bx" x="120" y="100" width="160" height="70"/><text x="200" y="146" text-anchor="middle" class="b">4×1 MUX 1</text>
+  <rect class="bx" x="360" y="100" width="160" height="70"/><text x="440" y="146" text-anchor="middle" class="b">4×1 MUX 0</text>
+  <g class="sm"><text x="140" y="116" text-anchor="middle">3</text><text x="180" y="116" text-anchor="middle">2</text><text x="220" y="116" text-anchor="middle">1</text><text x="260" y="116" text-anchor="middle">0</text>
+  <text x="380" y="116" text-anchor="middle">3</text><text x="420" y="116" text-anchor="middle">2</text><text x="460" y="116" text-anchor="middle">1</text><text x="500" y="116" text-anchor="middle">0</text></g>
+  <path class="wr" d="M30 220 H560"/><path class="wr" d="M30 240 H560"/>
+  <text x="8" y="224" class="red b">S1</text><text x="8" y="244" class="red b">S0</text>
+  <path class="wr" d="M140 220 V172" marker-end="url(#ar)"/><path class="wr" d="M160 240 V172" marker-end="url(#ar)"/>
+  <path class="wr" d="M380 220 V172" marker-end="url(#ar)"/><path class="wr" d="M400 240 V172" marker-end="url(#ar)"/>
+  <circle class="dot" cx="140" cy="220" r="3"/><circle class="dot" cx="160" cy="240" r="3"/><circle class="dot" cx="380" cy="220" r="3"/><circle class="dot" cx="400" cy="240" r="3"/>
+  <path class="w" d="M280 135 H330" marker-end="url(#ar)"/><text x="284" y="128" class="sm">bus bit 1</text>
+  <path class="w" d="M520 135 H580" marker-end="url(#ar)"/><text x="524" y="128" class="sm">bus bit 0</text>
+  <text x="310" y="20" text-anchor="middle" class="sm mut">Bit i of every register goes into MUX i · S1S0: 00 → A, 01 → B, 10 → C, 11 → D</text>
+</svg>
+</figure>
+Rule: n = 2 bits, so 2 MUXes. k = 4 registers, so each MUX is 4×1 with 2 shared select lines.
+</details></li>
+<li><p>Draw a <b>4-bit adder-subtractor</b>: when the mode input M = 0 it computes A + B, and when M = 1 it computes A − B.</p>
+<details><summary>Show answer</summary>
+<figure>
+<svg viewBox="0 0 720 270" role="img" aria-label="4-bit adder-subtractor">
+  <path class="wr" d="M20 112 H690 V158 H622" marker-end="url(#ar)"/><text x="4" y="116" class="red b">M</text>
+  <text x="640" y="150" class="sm red">C0 = M</text>
+  <!-- stage generator: x = 80, 230, 380, 530 -->
+  <g>
+    <path class="w" d="M84 30 V128" marker-end="url(#ar)"/><path class="w" d="M104 30 V78 H120"/>
+    <path class="wr" d="M110 112 V92 H120"/><circle class="dot" cx="110" cy="112" r="2.5"/>
+    <path class="w" d="M114,70 Q126,85 114,100"/><path class="bx" d="M120,70 Q132,85 120,100 Q142,100 154,85 Q142,70 120,70 z"/>
+    <path class="w" d="M154 85 H160 V128" marker-end="url(#ar)"/>
+    <rect class="bx" x="80" y="130" width="90" height="56"/><text x="125" y="164" text-anchor="middle" class="b">FA</text>
+    <path class="w" d="M125 186 V226" marker-end="url(#ar)"/><text x="118" y="244" class="b">S3</text>
+    <text x="84" y="24" text-anchor="middle" class="sm">A3</text><text x="104" y="24" text-anchor="middle" class="sm">B3</text>
+  </g>
+  <g transform="translate(150,0)">
+    <path class="w" d="M84 30 V128" marker-end="url(#ar)"/><path class="w" d="M104 30 V78 H120"/>
+    <path class="wr" d="M110 112 V92 H120"/><circle class="dot" cx="110" cy="112" r="2.5"/>
+    <path class="w" d="M114,70 Q126,85 114,100"/><path class="bx" d="M120,70 Q132,85 120,100 Q142,100 154,85 Q142,70 120,70 z"/>
+    <path class="w" d="M154 85 H160 V128" marker-end="url(#ar)"/>
+    <rect class="bx" x="80" y="130" width="90" height="56"/><text x="125" y="164" text-anchor="middle" class="b">FA</text>
+    <path class="w" d="M125 186 V226" marker-end="url(#ar)"/><text x="118" y="244" class="b">S2</text>
+    <text x="84" y="24" text-anchor="middle" class="sm">A2</text><text x="104" y="24" text-anchor="middle" class="sm">B2</text>
+  </g>
+  <g transform="translate(300,0)">
+    <path class="w" d="M84 30 V128" marker-end="url(#ar)"/><path class="w" d="M104 30 V78 H120"/>
+    <path class="wr" d="M110 112 V92 H120"/><circle class="dot" cx="110" cy="112" r="2.5"/>
+    <path class="w" d="M114,70 Q126,85 114,100"/><path class="bx" d="M120,70 Q132,85 120,100 Q142,100 154,85 Q142,70 120,70 z"/>
+    <path class="w" d="M154 85 H160 V128" marker-end="url(#ar)"/>
+    <rect class="bx" x="80" y="130" width="90" height="56"/><text x="125" y="164" text-anchor="middle" class="b">FA</text>
+    <path class="w" d="M125 186 V226" marker-end="url(#ar)"/><text x="118" y="244" class="b">S1</text>
+    <text x="84" y="24" text-anchor="middle" class="sm">A1</text><text x="104" y="24" text-anchor="middle" class="sm">B1</text>
+  </g>
+  <g transform="translate(450,0)">
+    <path class="w" d="M84 30 V128" marker-end="url(#ar)"/><path class="w" d="M104 30 V78 H120"/>
+    <path class="wr" d="M110 112 V92 H120"/><circle class="dot" cx="110" cy="112" r="2.5"/>
+    <path class="w" d="M114,70 Q126,85 114,100"/><path class="bx" d="M120,70 Q132,85 120,100 Q142,100 154,85 Q142,70 120,70 z"/>
+    <path class="w" d="M154 85 H160 V128" marker-end="url(#ar)"/>
+    <rect class="bx" x="80" y="130" width="90" height="56"/><text x="125" y="164" text-anchor="middle" class="b">FA</text>
+    <path class="w" d="M125 186 V226" marker-end="url(#ar)"/><text x="118" y="244" class="b">S0</text>
+    <text x="84" y="24" text-anchor="middle" class="sm">A0</text><text x="104" y="24" text-anchor="middle" class="sm">B0</text>
+  </g>
+  <path class="wa" d="M530 172 H472" marker-end="url(#ar)"/><text x="490" y="166" class="sm acc">C1</text>
+  <path class="wa" d="M380 172 H322" marker-end="url(#ar)"/><text x="340" y="166" class="sm acc">C2</text>
+  <path class="wa" d="M230 172 H172" marker-end="url(#ar)"/><text x="190" y="166" class="sm acc">C3</text>
+  <path class="wa" d="M80 172 H24" marker-end="url(#ar)"/><text x="28" y="166" class="sm acc b">C4</text>
+  <text x="360" y="266" text-anchor="middle" class="sm mut">Each B<tspan dy="3">i</tspan><tspan dy="-3"> goes through an XOR with M: M = 0 → B passes; M = 1 → B' and C0 = 1 → A + B' + 1 = A − B</tspan></text>
+</svg>
+</figure>
+Key idea: an XOR gate with one input tied to M works as a controlled inverter <span class="tr">kontrollü tümleyici</span>, because B ⊕ 0 = B and B ⊕ 1 = B'.
+</details></li>
+<li><p>Draw the hardware for <code>P: R1 ← R2</code> and <code>P'Q: R1 ← R3</code>.</p>
+<details><summary>Show answer</summary>
+<figure>
+<svg viewBox="0 0 620 250" style="max-width:620px" role="img" aria-label="MUX selecting R2 or R3 into R1">
+  <rect class="bx" x="20" y="45" width="100" height="40"/><text x="70" y="70" text-anchor="middle" class="b">R2</text>
+  <rect class="bx" x="20" y="135" width="100" height="40"/><text x="70" y="160" text-anchor="middle" class="b">R3</text>
+  <path class="w" d="M120 65 H198" marker-end="url(#ar)"/><path class="w" d="M120 155 H198" marker-end="url(#ar)"/>
+  <rect class="bx" x="200" y="40" width="90" height="140"/><text x="245" y="106" text-anchor="middle" class="b">2×1</text><text x="245" y="124" text-anchor="middle" class="b">MUX</text>
+  <text x="206" y="70" class="sm">1</text><text x="206" y="160" class="sm">0</text>
+  <path class="wa" d="M245 10 V38" marker-end="url(#ar)"/><text x="252" y="20" class="acc b">P (select)</text>
+  <path class="w" d="M290 110 H408" marker-end="url(#ar)"/><text x="310" y="102" class="sm">n</text>
+  <rect class="bxa" x="410" y="85" width="120" height="50"/><text x="470" y="115" text-anchor="middle" class="b">R1</text>
+  <path class="w" d="M590 110 H532" marker-end="url(#ar)"/><text x="560" y="102" class="sm">clock</text>
+  <path class="wa" d="M330 190 H372"/><path class="wa" d="M330 210 H372"/>
+  <text x="314" y="194" class="acc b">P</text><text x="314" y="214" class="acc b">Q</text>
+  <path class="bx" d="M368,185 Q380,200 368,215 Q390,215 402,200 Q390,185 368,185 z"/>
+  <path class="wa" d="M402 200 H440 V137" marker-end="url(#ar)"/><text x="448" y="160" class="sm">Load</text>
+  <text x="20" y="240" class="sm mut">Load = P + P'Q = P + Q (absorption). When P = 1 the MUX passes R2, otherwise R3.</text>
+</svg>
+</figure></details></li>
+</ol>
+
+<h4>G · Find the error <span class="tr">Hatayı bul</span></h4>
+<ol>
+<li>"A bus for 4 registers of 16 bits needs 4 MUXes of 16×1."</li>
+<li>"<code>T1: R1 ← R2, R1 ← R3</code> loads both registers into R1."</li>
+<li>"In ashr, the bit shifted out of R<sub>n−1</sub> is lost."</li>
+</ol>
+<details><summary>Show answer</summary>
+1. The sizes are swapped: it needs <b>16 MUXes of 4×1</b>. · 2. This is invalid: two different values cannot be loaded into the same register in the same clock cycle. · 3. In ashr it is <b>R<sub>0</sub></b> that is lost, and R<sub>n−1</sub> (the sign) stays as it is. (In ashl, the old R<sub>n−1</sub> is the bit that is lost.)
+</details>
 <!-- ===================================================== CHAPTER 5 -->
 <h2 id="ch5">Bölüm 5 — Basic Computer Organization and Design<br><span class="tr" style="font-size:.7em">Temel Bilgisayar Yapısı ve Devreleri</span></h2>
 
@@ -1688,6 +1898,197 @@ T0: AR ← 021 · T1: IR ← 7200, PC ← 022 · T2: decode → D7 = 1, I = 0 ·
 </table>
 T3 is always used: for indirect it reads the address, for direct it does nothing. So the count is the same for both.
 </div>
+
+<h3 id="s5x">5.12 Exam-style questions <span class="tr">Sınav soruları</span></h3>
+<p>Bölüm 5 is the core of most exams: traces, hex codes, timing steps and control gates. Work each group out on paper before opening its answer key.</p>
+
+<h4>A · Multiple choice <span class="tr">Çoktan seçmeli</span></h4>
+<ol>
+<li>How many bits does AR have?<br>A) 8 &nbsp; B) 12 &nbsp; C) 16 &nbsp; D) 4</li>
+<li>Which S<sub>2</sub>S<sub>1</sub>S<sub>0</sub> value places DR on the bus?<br>A) 010 &nbsp; B) 011 &nbsp; C) 100 &nbsp; D) 111</li>
+<li>What is the hex code of <code>ADD 1A2 I</code>?<br>A) 11A2 &nbsp; B) 91A2 &nbsp; C) 21A2 &nbsp; D) A1A2</li>
+<li>What happens at T1 of the fetch phase?<br>A) AR ← PC &nbsp; B) IR ← M[AR], PC ← PC + 1 &nbsp; C) AR ← IR(0–11) &nbsp; D) DR ← M[AR]</li>
+<li>The common control term of register-reference instructions is:<br>A) D7IT3 &nbsp; B) D7'IT3 &nbsp; C) D7I'T3 &nbsp; D) D7'I'T3</li>
+<li>Which instruction needs timing signal T6?<br>A) BSA &nbsp; B) ADD &nbsp; C) ISZ &nbsp; D) STA</li>
+<li>For an indirect memory-reference instruction, what happens at T3?<br>A) nothing &nbsp; B) AR ← M[AR] &nbsp; C) DR ← M[AR] &nbsp; D) PC ← AR</li>
+<li>Instruction 7020 is:<br>A) CLA &nbsp; B) INC &nbsp; C) CIL &nbsp; D) SZA</li>
+<li>When an interrupt is accepted, the return address is stored in:<br>A) TR &nbsp; B) memory location 1 &nbsp; C) memory location 0 &nbsp; D) AR</li>
+<li>Which unit loads AC?<br>A) the common bus &nbsp; B) the adder and logic circuit &nbsp; C) memory directly &nbsp; D) IR</li>
+</ol>
+<details><summary>Show answer</summary>
+1-B · 2-B · 3-B (I = 1 + opcode 001 = 1001 = 9) · 4-B · 5-C · 6-C · 7-B · 8-B (bit 5 is set) · 9-C · 10-B
+</details>
+
+<h4>B · True / False <span class="tr">Doğru / Yanlış</span></h4>
+<ol>
+<li>PC holds the address of the instruction currently being executed.</li>
+<li>The memory address input is connected only to AR.</li>
+<li>A direct memory-reference instruction skips T3 and goes straight to T4.</li>
+<li>STA is executed with the single step D3T4: M[AR] ← AC, SC ← 0.</li>
+<li>BSA saves the return address in PC.</li>
+<li>HLT clears the start-stop flip-flop S.</li>
+<li>Input–output instructions are recognised by D7 = 1 and I = 1.</li>
+<li>INP copies INPR into all 16 bits of AC.</li>
+<li>During the interrupt cycle IEN is cleared.</li>
+<li>In a register-reference instruction exactly one of bits 0–11 is 1.</li>
+</ol>
+<details><summary>Show answer</summary>
+1-F: after fetch, PC holds the address of the <i>next</i> instruction. · 2-T · 3-F: T3 is still used; for a direct instruction it simply does nothing. · 4-T · 5-F: BSA stores PC into M[AR] (the first word of the subroutine) and then PC ← AR + 1. · 6-T · 7-T · 8-F: only AC(0–7) ← INPR. · 9-T · 10-T
+</details>
+
+<h4>C · Fill in the blanks <span class="tr">Boşluk doldurma</span></h4>
+<ol>
+<li>The memory is 4096 × 16, so an address needs ______ bits.</li>
+<li>The opcode bits IR(12–14) go into a ______ decoder, whose outputs are D0–D7.</li>
+<li>The 4-bit sequence counter SC and a 4×16 decoder produce timing signals ______ to ______.</li>
+<li>The address where the operand actually is located is called the ______ address.</li>
+<li>Every instruction ends with the micro-operation ______.</li>
+<li>For register-reference instructions, r = ______.</li>
+<li>The hex code of HLT is ______.</li>
+<li>FGI = 1 means ______.</li>
+<li>In the interrupt cycle the return address is stored at location ______ and PC becomes ______.</li>
+<li>The CLR input of AC is driven by the term ______.</li>
+</ol>
+<details><summary>Show answer</summary>
+1 · 12 &nbsp; 2 · 3×8 &nbsp; 3 · T0, T15 &nbsp; 4 · effective <span class="tr">etkin adres</span> &nbsp; 5 · SC ← 0 &nbsp; 6 · D7 I' T3 &nbsp; 7 · 7001 &nbsp; 8 · a new character is waiting in INPR &nbsp; 9 · 0, 1 &nbsp; 10 · rB11 (CLA)
+</details>
+
+<h4>D · Hex encode / decode <span class="tr">Onaltılık kodlama</span></h4>
+<p><b>Encode:</b> (a) <code>LDA 1F3 I</code> (b) <code>STA 0A5</code> (c) <code>BUN 3C0 I</code> (d) <code>CME</code> (e) <code>SKI</code><br>
+<b>Decode:</b> (f) 6123 (g) D234 (h) 7008 (i) F040 (j) B001</p>
+<details><summary>Show answer</summary>
+(a) A1F3 · (b) 30A5 · (c) C3C0 · (d) 7100 · (e) F200 · (f) ISZ 123 · (g) 1101 → I = 1, opcode 101 = BSA 234 I · (h) SNA · (i) IOF · (j) 1011 → STA 001 I
+</details>
+
+<h4>E · Classic questions <span class="tr">Klasik sorular</span></h4>
+<ol>
+<li><p><b>Full trace.</b> PC = 021, AC = 7EC3, E = 0. Memory: M[021] = 932E, M[32E] = 09AC, M[9AC] = 8B9F. Execute the instruction at 021 and fill in AR, PC, DR, IR, AC and E after each timing signal.</p>
+<details><summary>Show answer</summary>
+932E = 1001 0011 0010 1110 → I = 1, opcode 001 = <b>ADD 32E I</b>.
+<table>
+<tr><th>T</th><th>Micro-ops</th><th>AR</th><th>PC</th><th>DR</th><th>IR</th><th>AC</th><th>E</th></tr>
+<tr><td>T0</td><td class="mono">AR ← PC</td><td>021</td><td>021</td><td>–</td><td>–</td><td>7EC3</td><td>0</td></tr>
+<tr><td>T1</td><td class="mono">IR ← M[AR], PC ← PC+1</td><td>021</td><td>022</td><td>–</td><td>932E</td><td>7EC3</td><td>0</td></tr>
+<tr><td>T2</td><td class="mono">D1, AR ← 32E, I ← 1</td><td>32E</td><td>022</td><td>–</td><td>932E</td><td>7EC3</td><td>0</td></tr>
+<tr><td>T3</td><td class="mono">AR ← M[AR]</td><td>9AC</td><td>022</td><td>–</td><td>932E</td><td>7EC3</td><td>0</td></tr>
+<tr><td>T4</td><td class="mono">DR ← M[AR]</td><td>9AC</td><td>022</td><td>8B9F</td><td>932E</td><td>7EC3</td><td>0</td></tr>
+<tr><td>T5</td><td class="mono">AC ← AC + DR, E ← Cout, SC ← 0</td><td>9AC</td><td>022</td><td>8B9F</td><td>932E</td><td><b>0A62</b></td><td><b>1</b></td></tr>
+</table>
+7EC3 + 8B9F = 1 0A62, so AC = 0A62 and E = 1.</details></li>
+<li><p>AC = A937, E = 0, PC = 021. Give AC, E and PC after each register-reference instruction below, each one starting from this same state: CLA, CLE, CMA, CME, CIR, CIL, INC, SPA, SNA, SZA, SZE, HLT.</p>
+<details><summary>Show answer</summary>
+After fetch, PC = 022. A937 = 1010 1001 0011 0111.
+<table>
+<tr><th>Instr.</th><th>AC</th><th>E</th><th>PC</th></tr>
+<tr><td>CLA</td><td class="mono">0000</td><td>0</td><td>022</td></tr>
+<tr><td>CLE</td><td class="mono">A937</td><td>0</td><td>022</td></tr>
+<tr><td>CMA</td><td class="mono">56C8</td><td>0</td><td>022</td></tr>
+<tr><td>CME</td><td class="mono">A937</td><td>1</td><td>022</td></tr>
+<tr><td>CIR</td><td class="mono">549B</td><td>1</td><td>022</td></tr>
+<tr><td>CIL</td><td class="mono">526E</td><td>1</td><td>022</td></tr>
+<tr><td>INC</td><td class="mono">A938</td><td>0</td><td>022</td></tr>
+<tr><td>SPA</td><td class="mono">A937</td><td>0</td><td>022 (AC is negative, no skip)</td></tr>
+<tr><td>SNA</td><td class="mono">A937</td><td>0</td><td><b>023</b></td></tr>
+<tr><td>SZA</td><td class="mono">A937</td><td>0</td><td>022</td></tr>
+<tr><td>SZE</td><td class="mono">A937</td><td>0</td><td><b>023</b></td></tr>
+<tr><td>HLT</td><td class="mono">A937</td><td>0</td><td>022 (S ← 0, computer stops)</td></tr>
+</table></details></li>
+<li><p>A new memory-reference instruction <b>SWAP</b> (decoder output D<sub>x</sub>) must exchange AC and M[AR]. Write its micro-operations, starting at T4.</p>
+<details><summary>Show answer</summary><pre>DxT4: DR ← M[AR]
+DxT5: M[AR] ← AC,  AC ← DR,  SC ← 0</pre>
+At T5 these two transfers can share a clock cycle: AC goes over the bus into memory, while DR → AC goes through the adder &amp; logic circuit and does not use the bus.</details></li>
+<li><p>How many clock cycles does this program take to run, up to and including HLT? <code>LDA A, ADD B, STA C, ISZ D, HLT</code> (all direct).</p>
+<details><summary>Show answer</summary>LDA 6 + ADD 6 + STA 5 + ISZ 7 + HLT 4 = <b>28</b> cycles (assuming ISZ does not skip HLT).</details></li>
+<li><p>An interrupt arrives while the instruction at address 255 is executing, and IEN = 1. Write the interrupt cycle with the actual register values.</p>
+<details><summary>Show answer</summary>After that instruction finishes, PC = 256 and R ← 1.<br>RT0: AR ← 0, TR ← 256 · RT1: M[0] ← 256, PC ← 0 · RT2: PC ← 1, IEN ← 0, R ← 0, SC ← 0. Next, the instruction at location 1 (BUN 1120) is fetched, and the service routine ends with <code>BUN 0 I</code>.</details></li>
+</ol>
+
+<h4>F · Drawing questions <span class="tr">Çizim soruları</span></h4>
+<ol>
+<li><p>Draw the control gates for the <b>LD</b> and <b>CLR</b> inputs of PC, and write the expression for <b>INR(PC)</b>.</p>
+<details><summary>Show answer</summary>
+Collect every statement that changes PC: BUN (D4T4: PC ← AR), BSA (D5T5: PC ← AR), the interrupt cycle (RT1: PC ← 0), and all the PC ← PC + 1 cases.
+<figure>
+<svg viewBox="0 0 620 300" style="max-width:620px" role="img" aria-label="PC control gates">
+  <path class="w" d="M40 38 H100"/><path class="w" d="M40 52 H100"/><text x="14" y="42" class="sm">D4</text><text x="14" y="56" class="sm">T4</text>
+  <path class="bx" d="M100,30 h15 a15,15 0 0 1 0,30 h-15 z"/>
+  <path class="w" d="M40 98 H100"/><path class="w" d="M40 112 H100"/><text x="14" y="102" class="sm">D5</text><text x="14" y="116" class="sm">T5</text>
+  <path class="bx" d="M100,90 h15 a15,15 0 0 1 0,30 h-15 z"/>
+  <path class="w" d="M130 45 H180 V68 H214"/><path class="w" d="M130 105 H180 V82 H214"/>
+  <path class="bx" d="M210,60 Q222,75 210,90 Q232,90 244,75 Q232,60 210,60 z"/>
+  <path class="w" d="M244 75 H330 V200 H400 V172" marker-end="url(#ar)"/>
+  <path class="w" d="M40 218 H100"/><path class="w" d="M40 232 H100"/><text x="14" y="222" class="sm">R</text><text x="14" y="236" class="sm">T1</text>
+  <path class="bx" d="M100,210 h15 a15,15 0 0 1 0,30 h-15 z"/>
+  <path class="w" d="M130 225 H520 V172" marker-end="url(#ar)"/>
+  <rect class="bxa" x="370" y="110" width="200" height="60"/><text x="470" y="138" text-anchor="middle" class="b">PC</text>
+  <text x="392" y="164" class="sm">LD</text><text x="448" y="164" class="sm">INR</text><text x="508" y="164" class="sm">CLR</text>
+  <path class="wa" d="M460 260 V172" marker-end="url(#ar)"/>
+  <text x="250" y="66" class="sm">LD = D4T4 + D5T5</text><text x="160" y="250" class="sm">CLR = RT1</text>
+  <text x="380" y="280" class="sm acc">INR (see expression below)</text>
+</svg>
+</figure>
+<pre>INR(PC) = R'T1 + RT2 + D6T6·(DR = 0) + rB4·AC(15)' + rB3·AC(15)
+        + rB2·(AC = 0) + rB1·E' + pB9·FGI + pB8·FGO</pre>
+The terms are, in order: fetch, interrupt cycle, ISZ, SPA, SNA, SZA, SZE, SKI, SKO.
+</details></li>
+<li><p>Draw the memory before and after executing <code>BSA 300</code>, which is stored at address 100.</p>
+<details><summary>Show answer</summary>
+<figure>
+<svg viewBox="0 0 620 220" style="max-width:620px" role="img" aria-label="BSA 300 before and after">
+  <text x="140" y="18" text-anchor="middle" class="b">Before</text>
+  <text x="20" y="48" class="sm">100</text><rect class="bx" x="60" y="30" width="160" height="28"/><text x="140" y="49" text-anchor="middle" class="mono">0 BSA 300 (5300)</text>
+  <text x="2" y="78" class="sm">PC = 101</text><rect class="bx" x="60" y="60" width="160" height="28"/><text x="140" y="79" text-anchor="middle">next instruction</text>
+  <text x="2" y="140" class="sm">AR = 300</text><rect class="bx" x="60" y="122" width="160" height="28"/><text x="140" y="141" text-anchor="middle" class="mut">(anything)</text>
+  <text x="20" y="170" class="sm">301</text><rect class="bxa" x="60" y="152" width="160" height="28"/><text x="140" y="171" text-anchor="middle">subroutine starts</text>
+  <path class="wa" d="M240 120 H350" marker-end="url(#ar)"/><text x="300" y="98" text-anchor="middle" class="sm acc">D5T4: M[300] ← 101, AR ← 301</text><text x="300" y="112" text-anchor="middle" class="sm acc">D5T5: PC ← 301, SC ← 0</text>
+  <g transform="translate(360,0)">
+  <text x="140" y="18" text-anchor="middle" class="b">After</text>
+  <text x="20" y="48" class="sm">100</text><rect class="bx" x="60" y="30" width="160" height="28"/><text x="140" y="49" text-anchor="middle" class="mono">0 BSA 300 (5300)</text>
+  <text x="20" y="78" class="sm">101</text><rect class="bx" x="60" y="60" width="160" height="28"/><text x="140" y="79" text-anchor="middle">next instruction</text>
+  <text x="20" y="140" class="sm">300</text><rect class="bxg" x="60" y="122" width="160" height="28"/><text x="140" y="141" text-anchor="middle" class="b">101</text>
+  <text x="-6" y="170" class="sm">PC = 301</text><rect class="bxa" x="60" y="152" width="160" height="28"/><text x="140" y="171" text-anchor="middle">subroutine starts</text>
+  </g>
+  <text x="310" y="210" text-anchor="middle" class="sm mut">Return from the subroutine with BUN 300 I (C300), which jumps to 101.</text>
+</svg>
+</figure></details></li>
+<li><p>Draw the <b>encoder</b> that generates the bus select inputs S<sub>2</sub>S<sub>1</sub>S<sub>0</sub>. Let x<sub>1</sub>…x<sub>7</sub> be the control signals that place AR, PC, DR, AC, IR, TR and memory on the bus.</p>
+<details><summary>Show answer</summary>
+Each select bit is 1 when the binary code of the chosen unit has a 1 in that position:
+<figure>
+<svg viewBox="0 0 520 230" style="max-width:520px" role="img" aria-label="bus select encoder">
+  <g>
+    <path class="w" d="M66 30 H134"/><path class="w" d="M66 42 H136"/><path class="w" d="M66 54 H136"/><path class="w" d="M66 66 H134"/>
+    <text x="60" y="34" class="sm" text-anchor="end">x4</text><text x="60" y="46" class="sm" text-anchor="end">x5</text><text x="60" y="58" class="sm" text-anchor="end">x6</text><text x="60" y="70" class="sm" text-anchor="end">x7</text>
+    <path class="bx" d="M130,22 Q146,48 130,74 Q162,74 182,48 Q162,22 130,22 z"/>
+    <path class="w" d="M182 48 H260" marker-end="url(#ar)"/><text x="268" y="52" class="b">S2 = x4 + x5 + x6 + x7</text>
+  </g>
+  <g transform="translate(0,75)">
+    <path class="w" d="M66 30 H134"/><path class="w" d="M66 42 H136"/><path class="w" d="M66 54 H136"/><path class="w" d="M66 66 H134"/>
+    <text x="60" y="34" class="sm" text-anchor="end">x2</text><text x="60" y="46" class="sm" text-anchor="end">x3</text><text x="60" y="58" class="sm" text-anchor="end">x6</text><text x="60" y="70" class="sm" text-anchor="end">x7</text>
+    <path class="bx" d="M130,22 Q146,48 130,74 Q162,74 182,48 Q162,22 130,22 z"/>
+    <path class="w" d="M182 48 H260" marker-end="url(#ar)"/><text x="268" y="52" class="b">S1 = x2 + x3 + x6 + x7</text>
+  </g>
+  <g transform="translate(0,150)">
+    <path class="w" d="M66 30 H134"/><path class="w" d="M66 42 H136"/><path class="w" d="M66 54 H136"/><path class="w" d="M66 66 H134"/>
+    <text x="60" y="34" class="sm" text-anchor="end">x1</text><text x="60" y="46" class="sm" text-anchor="end">x3</text><text x="60" y="58" class="sm" text-anchor="end">x5</text><text x="60" y="70" class="sm" text-anchor="end">x7</text>
+    <path class="bx" d="M130,22 Q146,48 130,74 Q162,74 182,48 Q162,22 130,22 z"/>
+    <path class="w" d="M182 48 H260" marker-end="url(#ar)"/><text x="268" y="52" class="b">S0 = x1 + x3 + x5 + x7</text>
+  </g>
+</svg>
+</figure>
+Here x<sub>1</sub> = AR, x<sub>2</sub> = PC, x<sub>3</sub> = DR, x<sub>4</sub> = AC, x<sub>5</sub> = IR, x<sub>6</sub> = TR and x<sub>7</sub> = memory. Example: x<sub>2</sub> = 1 (PC) gives S<sub>2</sub>S<sub>1</sub>S<sub>0</sub> = 010 ✔. In the fetch phase, x<sub>2</sub> = T0 and x<sub>7</sub> = T1.
+</details></li>
+</ol>
+
+<h4>G · Find the error <span class="tr">Hatayı bul</span></h4>
+<ol>
+<li><code>D2T4: AC ← M[AR], SC ← 0</code> (meant to be LDA)</li>
+<li><code>D4T4: PC ← AR, AR ← AR + 1</code> (meant to be BUN)</li>
+<li><code>RT1: M[AR] ← PC, PC ← 0</code> (meant to be the interrupt cycle)</li>
+</ol>
+<details><summary>Show answer</summary>
+1. There is no path from the bus directly into AC. It must be <code>D2T4: DR ← M[AR]</code>, then <code>D2T5: AC ← DR, SC ← 0</code>. · 2. BUN is simply <code>D4T4: PC ← AR, SC ← 0</code>. The AR + 1 belongs to BSA, and here SC ← 0 is missing. · 3. PC was already copied to TR at RT0, so it is <code>RT1: M[AR] ← TR, PC ← 0</code>.
+</details>
 <!-- ===================================================== CHAPTER 6 -->
 <h2 id="ch6">Bölüm 6 — Programming the Basic Computer<br><span class="tr" style="font-size:.7em">Temel Bilgisayarın Programlanması</span></h2>
 
@@ -2357,6 +2758,184 @@ The handwritten version leaves out the three lines that load the count (<code>LD
 The interrupt arrives during <code>ADD Y</code> at 103. The CPU finishes ADD, stores 104 in location 0, and jumps to location 1. Location 1 branches to SRV. The routine services the device(s), restores AC and E, executes ION, and returns to 104 with <code>BUN ZRO I</code>.<br>
 <b>Why is ION right before the return safe?</b> ION takes effect only after the next instruction (BUN ZRO I) has run, so the return address cannot be overwritten before it is used.
 </div>
+
+<h3 id="s6x">6.8 Exam-style questions <span class="tr">Sınav soruları</span></h3>
+<p>Bölüm 6 exams usually ask you to assemble a program by hand, trace one, or write a short one. Practise all three types below.</p>
+
+<h4>A · Multiple choice <span class="tr">Çoktan seçmeli</span></h4>
+<ol>
+<li>Which pseudo-instruction tells the assembler where the following code is placed in memory?<br>A) END &nbsp; B) ORG &nbsp; C) DEC &nbsp; D) HEX</li>
+<li><code>DEC -1</code> is assembled as:<br>A) 0001 &nbsp; B) 8001 &nbsp; C) FFFF &nbsp; D) FFFE</li>
+<li>What is the maximum length of a symbolic address (label)?<br>A) 1 &nbsp; B) 3 &nbsp; C) 4 &nbsp; D) 8</li>
+<li>The main output of the assembler's first pass is:<br>A) the binary program &nbsp; B) the address-symbol table &nbsp; C) the MRI table &nbsp; D) an error list</li>
+<li>LC stands for:<br>A) logic circuit &nbsp; B) load counter &nbsp; C) location counter &nbsp; D) loop control</li>
+<li>Which instruction returns from a subroutine whose first word is SUB?<br>A) BUN SUB &nbsp; B) BSA SUB &nbsp; C) BUN SUB I &nbsp; D) LDA SUB I</li>
+<li>A loop must run 25 times using <code>ISZ CTR</code>. CTR should start at:<br>A) DEC 25 &nbsp; B) DEC -25 &nbsp; C) DEC 24 &nbsp; D) HEX 25</li>
+<li>Which sequence performs an arithmetic shift right of AC?<br>A) CLE, CIR &nbsp; B) CLE, SPA, CME, CIR &nbsp; C) CME, CIR &nbsp; D) CIR, CLE</li>
+<li>How many tables does the assembler use in the second pass?<br>A) 2 &nbsp; B) 3 &nbsp; C) 4 &nbsp; D) 5</li>
+<li>With only AND and CMA available, A OR B is computed as:<br>A) (A ∧ B)' &nbsp; B) (A' ∧ B')' &nbsp; C) A' ∧ B' &nbsp; D) (A ∧ B')'</li>
+</ol>
+<details><summary>Show answer</summary>
+1-B · 2-C · 3-B · 4-B · 5-C · 6-C · 7-B · 8-B · 9-C (pseudo, MRI, non-MRI, address-symbol) · 10-B (De Morgan)
+</details>
+
+<h4>B · True / False <span class="tr">Doğru / Yanlış</span></h4>
+<ol>
+<li>ORG and END are translated into machine instructions.</li>
+<li>In the label field, a symbolic address is followed by a comma.</li>
+<li>Two passes are needed because a symbol may be used before it is defined.</li>
+<li>If CTR starts at −N, then <code>ISZ CTR</code> skips on the N-th increment.</li>
+<li>On its own, CIL always performs a logical shift left.</li>
+<li>One 16-bit memory word holds two 8-bit ASCII characters.</li>
+<li>BSA stores the return address in AC.</li>
+<li>Parameters placed after a BSA are read by indirect addressing through the return address.</li>
+<li>An interrupt service routine must save AC and E before using them.</li>
+<li>SKI skips the next instruction when FGI = 0.</li>
+</ol>
+<details><summary>Show answer</summary>
+1-F: they are pseudo-instructions, i.e. directions to the assembler, and produce no machine word. · 2-T · 3-T (forward references) · 4-T · 5-F: CIL rotates E into AC(0), so you need CLE first. · 6-T · 7-F: BSA stores it in memory, at the subroutine's first word. · 8-T · 9-T · 10-F: SKI skips when FGI = 1.
+</details>
+
+<h4>C · Fill in the blanks <span class="tr">Boşluk doldurma</span></h4>
+<ol>
+<li>The number N in <code>ORG N</code> is written in ______.</li>
+<li>A comment in the comment field starts with the character ______.</li>
+<li>If there is no ORG, the assembler starts LC at ______.</li>
+<li>The table built in the first pass is the ______ table.</li>
+<li>The first hex digit of <code>ADD PTR I</code> is ______.</li>
+<li>The three fields of an assembly line are label, instruction and ______.</li>
+<li>The product of two 16-bit numbers needs ______ words; such a number is called ______.</li>
+<li>To test whether the output device is ready, the program uses ______.</li>
+<li>The last instruction of an interrupt service routine (return address at location 0) is ______.</li>
+<li>In the multiplication program, each multiplier bit is tested through the ______ flip-flop.</li>
+</ol>
+<details><summary>Show answer</summary>
+1 · hexadecimal &nbsp; 2 · / &nbsp; 3 · 0 &nbsp; 4 · address-symbol <span class="tr">adres-sembol çizelgesi</span> &nbsp; 5 · 9 &nbsp; 6 · comment <span class="tr">açıklama</span> &nbsp; 7 · 2, double precision <span class="tr">çift duyarlıklı</span> &nbsp; 8 · SKO &nbsp; 9 · BUN 0 I (BUN ZRO I) &nbsp; 10 · E
+</details>
+
+<h4>D · Classic questions <span class="tr">Klasik sorular</span></h4>
+<ol>
+<li><p><b>Assemble by hand.</b> Give the address-symbol table and the hex code of every line, then say what is in AC when the program halts.</p>
+<pre>      ORG 10
+      LDA X
+      CMA
+      INC
+      ADD Y
+      SPA
+      BUN NEG
+      HLT
+NEG,  CLA
+      HLT
+X,    DEC 9
+Y,    DEC 5
+      END</pre>
+<details><summary>Show answer</summary>
+Address-symbol table: <b>NEG = 017, X = 019, Y = 01A</b>.
+<table>
+<tr><th>Loc</th><th>Code</th><th>Loc</th><th>Code</th></tr>
+<tr><td>010 LDA X</td><td class="mono">2019</td><td>016 HLT</td><td class="mono">7001</td></tr>
+<tr><td>011 CMA</td><td class="mono">7200</td><td>017 CLA</td><td class="mono">7800</td></tr>
+<tr><td>012 INC</td><td class="mono">7020</td><td>018 HLT</td><td class="mono">7001</td></tr>
+<tr><td>013 ADD Y</td><td class="mono">101A</td><td>019 DEC 9</td><td class="mono">0009</td></tr>
+<tr><td>014 SPA</td><td class="mono">7010</td><td>01A DEC 5</td><td class="mono">0005</td></tr>
+<tr><td>015 BUN NEG</td><td class="mono">4017</td><td></td><td></td></tr>
+</table>
+Run: AC = −9 (FFF7) → +5 = FFFC (−4). It is negative, so SPA does not skip, BUN NEG runs, then CLA → <b>AC = 0000</b>, and the program halts at 018.</details></li>
+<li><p>Write a program that counts how many of the 8 words starting at address 300 (hex) are <b>zero</b>, and stores the count in CNT.</p>
+<details><summary>Show answer</summary><pre>      ORG 100
+      LDA ADS
+      STA PTR       / pointer ← 300
+      LDA NBR
+      STA CTR       / counter ← −8
+      CLA
+      STA CNT       / CNT ← 0
+LOP,  LDA PTR I     / next word
+      SZA           / zero? skip the BUN
+      BUN NXT
+      ISZ CNT       / count it (never reaches 0, so never skips)
+NXT,  ISZ PTR
+      ISZ CTR
+      BUN LOP
+      HLT
+ADS,  HEX 300
+PTR,  HEX 0
+NBR,  DEC -8
+CTR,  HEX 0
+CNT,  HEX 0
+      END</pre></details></li>
+<li><p>Write a subroutine <b>MU4</b> that multiplies a positive number in AC by 4, and show how to call it for X.</p>
+<details><summary>Show answer</summary><pre>      LDA X
+      BSA MU4
+      STA X
+      HLT
+MU4,  HEX 0         / return address
+      CLE
+      CIL           / ×2
+      CLE
+      CIL           / ×4
+      BUN MU4 I     / return</pre>The CLE before each CIL makes it a logical (arithmetic for positive numbers) shift. This assumes the result fits in 15 bits.</details></li>
+<li><p>Trace <code>CLE, SPA, CME, CIR</code> for (a) AC = FFF6 and (b) AC = 000B. Give AC and E at the end.</p>
+<details><summary>Show answer</summary>
+(a) FFF6 = −10. CLE: E = 0 → SPA does not skip (negative) → CME: E = 1 → CIR: AC = 1111 1111 1111 1011 = <b>FFFB (−5)</b>, E = 0 (the old bit 0). ✔<br>
+(b) 000B = 11. CLE: E = 0 → SPA skips CME (positive) → CIR: AC = <b>0005</b>, E = 1 (the remainder bit). ✔</details></li>
+</ol>
+
+<h4>E · Drawing questions <span class="tr">Çizim soruları</span></h4>
+<ol>
+<li><p>Draw the flowchart of a program that adds 100 numbers stored from address 150 onward and stores the result in SUM.</p>
+<details><summary>Show answer</summary>
+<figure>
+<svg viewBox="0 0 460 470" style="max-width:460px" role="img" aria-label="flowchart summing 100 numbers">
+  <rect class="bxg" x="150" y="8" width="140" height="32" rx="12"/><text x="220" y="29" text-anchor="middle" class="b">Start</text>
+  <path class="w" d="M220 40V58" marker-end="url(#ar)"/>
+  <rect class="bx" x="120" y="60" width="200" height="56"/><text x="220" y="80" text-anchor="middle" class="sm">PTR ← 150, CTR ← −100</text><text x="220" y="100" text-anchor="middle" class="sm">AC ← 0</text>
+  <path class="w" d="M220 116V138" marker-end="url(#ar)"/>
+  <rect class="bx" x="130" y="140" width="180" height="34"/><text x="220" y="162" text-anchor="middle" class="sm">AC ← AC + M[PTR]</text>
+  <path class="w" d="M220 174V194" marker-end="url(#ar)"/>
+  <rect class="bx" x="130" y="196" width="180" height="34"/><text x="220" y="218" text-anchor="middle" class="sm">PTR ← PTR + 1</text>
+  <path class="w" d="M220 230V250" marker-end="url(#ar)"/>
+  <rect class="bx" x="130" y="252" width="180" height="34"/><text x="220" y="274" text-anchor="middle" class="sm">CTR ← CTR + 1</text>
+  <path class="w" d="M220 286V306" marker-end="url(#ar)"/>
+  <path class="bxa" d="M220 308 L270 338 L220 368 L170 338 Z"/><text x="220" y="343" text-anchor="middle" class="b">CTR = 0?</text>
+  <path class="wa" d="M170 338 H60 V157 H128" marker-end="url(#ar)"/><text x="80" y="330" class="sm acc">no (loop)</text>
+  <path class="w" d="M220 368V396" marker-end="url(#ar)"/><text x="228" y="386" class="sm">yes</text>
+  <rect class="bx" x="150" y="398" width="140" height="30"/><text x="220" y="418" text-anchor="middle" class="sm">SUM ← AC</text>
+  <path class="w" d="M220 428V444" marker-end="url(#ar)"/>
+  <rect class="bxr" x="170" y="446" width="100" height="22" rx="10"/><text x="220" y="462" text-anchor="middle" class="sm b">Halt</text>
+</svg>
+</figure>
+In assembly: <code>ADD PTR I</code>, <code>ISZ PTR</code>, <code>ISZ CTR</code>, <code>BUN LOP</code>. See 6.4.</details></li>
+<li><p>For the OR subroutine of 6.6 (ORG 200, <code>BSA OR</code> at 201, operand 3AF6 at 202), draw the word at OR (address 207) (a) right after BSA, and (b) right after <code>ISZ OR</code>. Show where <code>BUN OR I</code> returns to.</p>
+<details><summary>Show answer</summary>
+<figure>
+<svg viewBox="0 0 560 230" style="max-width:560px" role="img" aria-label="OR subroutine linkage">
+  <g class="sm">
+    <text x="20" y="38">201</text><text x="20" y="66">202</text><text x="20" y="94">203</text><text x="20" y="150">207</text>
+  </g>
+  <rect class="bx" x="90" y="22" width="150" height="26"/><text x="165" y="40" text-anchor="middle" class="mono">BSA OR</text>
+  <rect class="bxa" x="90" y="50" width="150" height="26"/><text x="165" y="68" text-anchor="middle" class="mono">HEX 3AF6</text>
+  <rect class="bx" x="90" y="78" width="150" height="26"/><text x="165" y="96" text-anchor="middle" class="mono">STA Y</text>
+  <rect class="bxg" x="90" y="134" width="150" height="26"/><text x="165" y="152" text-anchor="middle" class="b">OR: 202 → 203</text>
+  <text x="290" y="140" class="sm">(a) after BSA: M[207] = 202, used by LDA OR I</text>
+  <text x="290" y="158" class="sm">(b) after ISZ OR: M[207] = 203</text>
+  <path class="wa" d="M90 147 H60 V63 H88" marker-end="url(#ar)"/><text x="64" y="120" class="sm acc">(a)</text>
+  <path class="wr dash" d="M165 160 V190 H272 V91 H242" marker-end="url(#ar)"/><text x="100" y="206" class="sm red">(b) BUN OR I returns to 203, skipping the data word</text>
+</svg>
+</figure></details></li>
+<li><p>Draw the flowchart of the assembler's <b>first pass</b>.</p>
+<details><summary>Show answer</summary>
+See Figure 6-1. The required elements are: <b>LC ← 0</b> → <b>scan next line</b> → <b>label?</b> (yes: store the symbol with the current LC in the address-symbol table) → <b>ORG?</b> (yes: set LC and scan the next line) → <b>END?</b> (yes: go to the second pass) → otherwise <b>increment LC</b> and scan the next line. A labelled line also increments LC.</details></li>
+</ol>
+
+<h4>F · Find the errors <span class="tr">Hataları bul</span></h4>
+<pre>COUNT,  DEC 4
+1AB,    HEX 0
+        ADD
+        CLA X
+        LDA ZZ      / ZZ is never defined</pre>
+<details><summary>Show answer</summary>
+1. <code>COUNT</code>: a label may be at most 3 characters. · 2. <code>1AB</code>: a label must start with a letter. · 3. <code>ADD</code>: a memory-reference instruction needs an address. · 4. <code>CLA X</code>: a non-MRI instruction has no address part. · 5. <code>LDA ZZ</code>: ZZ is not in the address-symbol table, so the second pass reports an error.
+</details>
 <!-- ===================================================== GLOSSARY -->
 <h2 id="gloss">Glossary — Turkish ↔ English <span class="tr" style="font-size:.7em">Terimler Sözlüğü</span></h2>
 <table>
