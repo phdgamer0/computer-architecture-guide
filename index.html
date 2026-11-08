@@ -1960,7 +1960,7 @@ T3 is always used: for indirect it reads the address, for direct it does nothing
 <li>The CLR input of AC is driven by the term ______.</li>
 </ol>
 <details><summary>Show answer</summary>
-1 · 12 &nbsp; 2 · 3×8 &nbsp; 3 · T0, T15 &nbsp; 4 · effective <span class="tr">etkin adres</span> &nbsp; 5 · SC ← 0 &nbsp; 6 · D7 I' T3 &nbsp; 7 · 7001 &nbsp; 8 · a new character is waiting in INPR &nbsp; 9 · 0, 1 &nbsp; 10 · rB11 (CLA)
+1 12 · 2 3×8 · 3 T0, T15 · 4 effective <span class="tr">etkin adres</span> · 5 SC ← 0 · 6 D7 I' T3 · 7 7001 · 8 a new character is waiting in INPR · 9 0, 1 · 10 rB11 (CLA)
 </details>
 
 <h4>D · Hex encode / decode <span class="tr">Onaltılık kodlama</span></h4>
@@ -2820,7 +2820,7 @@ The interrupt arrives during <code>ADD Y</code> at 103. The CPU finishes ADD, st
 <li>In the multiplication program, each multiplier bit is tested through the ______ flip-flop.</li>
 </ol>
 <details><summary>Show answer</summary>
-1 · hexadecimal &nbsp; 2 · / &nbsp; 3 · 0 &nbsp; 4 · address-symbol <span class="tr">adres-sembol çizelgesi</span> &nbsp; 5 · 9 &nbsp; 6 · comment <span class="tr">açıklama</span> &nbsp; 7 · 2, double precision <span class="tr">çift duyarlıklı</span> &nbsp; 8 · SKO &nbsp; 9 · BUN 0 I (BUN ZRO I) &nbsp; 10 · E
+1 hexadecimal · 2 / · 3 0 · 4 address-symbol <span class="tr">adres-sembol çizelgesi</span> · 5 9 · 6 comment <span class="tr">açıklama</span> · 7 2, double precision <span class="tr">çift duyarlıklı</span> · 8 SKO · 9 BUN 0 I (BUN ZRO I) · 10 E
 </details>
 
 <h4>D · Classic questions <span class="tr">Klasik sorular</span></h4>
@@ -3903,5 +3903,235 @@ Points: program 10 (parameter fetch with ISZ 4, loop 4, return 2) · table 3 · 
 <p style="margin-top:60px;color:var(--muted);font-size:.9em">Built from the handwritten lecture notes "Bilgisayar Mimarisi Ders Notları" (2019–2020, pages 2–40, Bölüm 4–6). They follow M. Morris Mano, <i>Computer System Architecture</i>, chapters 4–6. Diagrams are redrawn and examples are added. Places where the notes contain a slip are marked with orange "Check against your notes" boxes.</p>
 </main>
 </div>
+<!-- ===== Interactive quiz layer: turns MC / TF / fill-in lists into clickable questions ===== -->
+<style>
+ol.quiz{padding-left:0;list-style:none;counter-reset:q}
+ol.quiz>li{counter-increment:q;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:12px 14px 12px 46px;margin:10px 0;position:relative;max-width:none}
+ol.quiz>li::before{content:counter(q);position:absolute;left:12px;top:11px;width:24px;height:24px;border-radius:50%;background:var(--box);border:1px solid var(--line);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center}
+ol.quiz>li.ok{border-color:var(--green)} ol.quiz>li.bad{border-color:var(--accent2)}
+.qopts{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.qopt{font:inherit;font-size:.95em;color:var(--ink);background:var(--box);border:1.5px solid var(--line);border-radius:8px;padding:7px 12px;cursor:pointer;text-align:left;line-height:1.4;flex:1 1 220px}
+.qopts.tf .qopt{flex:0 0 auto;min-width:90px;text-align:center}
+.qopt:hover:not(:disabled){border-color:var(--accent)}
+.qopt .k{font-weight:800;margin-right:6px;color:var(--accent)}
+.qopt.sel{border-color:var(--accent);background:var(--note)}
+.qopt.right{border-color:var(--green);background:var(--ok)}
+.qopt.wrong{border-color:var(--accent2);background:var(--warn)}
+.qopt:disabled{cursor:default;opacity:1}
+.qfb{margin-top:8px;font-size:.93em;display:none}
+.qfb.show{display:block}
+.qfb .v{font-weight:700} .qfb .v.g{color:var(--green)} .qfb .v.r{color:var(--accent2)}
+.qtools{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.qbtn{font:inherit;font-size:.85em;color:var(--accent);background:none;border:1px solid var(--line);border-radius:999px;padding:3px 12px;cursor:pointer}
+.qbtn:hover{border-color:var(--accent)}
+.qbtn.main{background:var(--accent);color:var(--paper);border-color:var(--accent);font-weight:700;padding:6px 16px}
+.qin{font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:8px;padding:6px 10px;min-width:0;flex:1 1 200px;max-width:340px}
+.qscore{display:inline-block;margin-left:10px;font-size:.8em;font-weight:700;padding:1px 10px;border-radius:999px;background:var(--box);border:1px solid var(--line);vertical-align:middle}
+.qbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:6px 0 14px}
+details.qans{margin-top:8px;background:var(--box)}
+@media print{.qtools,.qbar,.qfb{display:none!important} .qopt{border-width:1px}}
+</style>
+<script>
+(function(){
+  const strip = h => { const d=document.createElement('div'); d.innerHTML=h; return d.textContent; };
+  const norm = s => strip(s).toLowerCase().replace(/[\s'’`.,;:()\[\]{}"\/\\=+\-–—_*·×|]/g,'');
+
+  // Parse "1-B (why) · 2-C · …" style keys into {num: html}
+  function parseKey(html, n){
+    html = html.replace(/^\s*:?\s*/,'');
+    const parts = html.split(/\s·\s(?=\s*\d+\s*(?:[-.):]|\s))/);
+    const out = {};
+    for (const p of parts){
+      const m = p.match(/^\s*(\d+)\s*[-.):]?\s*([\s\S]*)$/);
+      if (!m) return null;
+      out[+m[1]] = m[2].trim();
+    }
+    for (let i=1;i<=n;i++) if (!(i in out)) return null;
+    return out;
+  }
+  function parseOpts(html, examStyle){
+    const parts = examStyle
+      ? html.split(/\s*·\s*(?=\([A-D]\)\s)/)
+      : html.split(/(?:\s|&nbsp;| )+(?=[A-D]\)\s)/);
+    const opts=[];
+    for (let p of parts){
+      p=p.replace(/(&nbsp;| |\s)+$/,'').trim(); if(!p) continue;
+      const m = examStyle ? p.match(/^\(([A-D])\)\s*([\s\S]*)$/) : p.match(/^([A-D])\)\s*([\s\S]*)$/);
+      if (!m) return null; opts.push([m[1], m[2]]);
+    }
+    return opts.length===4 && opts.map(o=>o[0]).join('')==='ABCD' ? opts : null;
+  }
+  function explain(rest, lead){ // drop the leading letter / T/F
+    let e = rest.replace(lead,'').trim().replace(/^[:\s]+/,'');
+    if (/^\(/.test(e) && /\)$/.test(e)) e = e.slice(1,-1);
+    return e;
+  }
+
+  function el(tag, cls, html){ const e=document.createElement(tag); if(cls) e.className=cls; if(html!=null) e.innerHTML=html; return e; }
+
+  function buildGroup(h4, ol, key, type, exam){
+    const lis=[...ol.children].filter(x=>x.tagName==='LI');
+    const items=[];
+    lis.forEach((li,i)=>{
+      const ans = key[i+1]; if (ans==null) return;
+      let stem, opts=null, correct, why='';
+      if (type==='mc'){
+        const div = li.querySelector('div.opts');
+        const m=ans.match(/^([A-D])\b/); if(!m) return;
+        if (div){ opts=parseOpts(div.innerHTML,true); if(!opts) return; div.remove(); stem=li.innerHTML; }
+        else { const ix=li.innerHTML.indexOf('<br>'); if(ix<0) return; opts=parseOpts(li.innerHTML.slice(ix+4),false); if(!opts) return; stem=li.innerHTML.slice(0,ix); }
+        correct=m[1]; why=explain(ans,/^[A-D]\b/);
+      } else if (type==='tf'){
+        const m=ans.match(/^([TF])\b/); if(!m) return;
+        correct=m[1]; why=explain(ans,/^[TF]\b/); stem=li.innerHTML;
+        opts=[['T','True'],['F','False']];
+      } else { stem=li.innerHTML; correct=ans; }
+      li.innerHTML = stem;
+      const it={li,type,correct,why,chosen:null,done:false};
+      if (type==='fill'){
+        const tools=el('div','qtools');
+        const inp=el('input','qin'); inp.placeholder='Your answer…';
+        const chk=el('button','qbtn',exam?'Show answer':'Check');
+        tools.append(inp,chk); li.append(tools);
+        const fb=el('div','qfb'); li.append(fb);
+        it.inp=inp; it.fb=fb;
+        const go=()=>revealFill(it); chk.onclick=go;
+        if(!exam) inp.addEventListener('keydown',e=>{if(e.key==='Enter')go();});
+      } else {
+        const box=el('div','qopts'+(type==='tf'?' tf':''));
+        it.btns=opts.map(([k,txt])=>{
+          const b=el('button','qopt', type==='tf'?txt:'<span class="k">'+k+'</span>'+txt);
+          b.type='button'; b.dataset.k=k;
+          b.onclick=()=>choose(it,k);
+          box.append(b); return b;
+        });
+        li.append(box);
+        const fb=el('div','qfb'); li.append(fb); it.fb=fb;
+        if (exam){ const t=el('div','qtools'); const r=el('button','qbtn','Show answer'); r.onclick=()=>reveal(it); t.append(r); li.append(t); }
+      }
+      items.push(it);
+    });
+    if (!items.length) return null;
+    ol.classList.add('quiz');
+    const score=el('span','qscore',''); h4.append(score);
+    const g={items,exam,score,type};
+    items.forEach(it=>it.g=g);
+    const bar=el('div','qbar');
+    if (exam){
+      const c=el('button','qbtn main','Check my answers'); c.onclick=()=>{items.forEach(it=>it.type==='fill'?revealFill(it):reveal(it)); upd(g);};
+      bar.append(c);
+    }
+    const r=el('button','qbtn','Reset'); r.onclick=()=>resetGroup(g); bar.append(r);
+    ol.after(bar);
+    upd(g);
+    return g;
+  }
+
+  function choose(it,k){
+    if (it.done) return;
+    it.chosen=k;
+    it.btns.forEach(b=>b.classList.toggle('sel',b.dataset.k===k));
+    if (!it.g.exam) reveal(it);
+    upd(it.g);
+  }
+  function reveal(it){
+    if (it.done) return; it.done=true;
+    const ok = it.chosen===it.correct;
+    it.btns.forEach(b=>{ b.disabled=true; b.classList.remove('sel');
+      if (b.dataset.k===it.correct) b.classList.add('right');
+      else if (b.dataset.k===it.chosen) b.classList.add('wrong'); });
+    const lab = it.type==='tf' ? (it.correct==='T'?'True':'False') : it.correct;
+    let v = it.chosen==null ? '<span class="v">Answer: '+lab+'</span>'
+          : ok ? '<span class="v g">✔ Correct</span>' : '<span class="v r">✘ Not quite. Answer: '+lab+'</span>';
+    it.fb.innerHTML = v + (it.why? ' · '+it.why : '');
+    it.fb.classList.add('show');
+    const tl=it.li.querySelector('.qtools'); if(tl) tl.style.display='none';
+    it.li.classList.toggle('ok', it.chosen!=null && ok);
+    it.li.classList.toggle('bad', it.chosen!=null && !ok);
+    upd(it.g);
+  }
+  function revealFill(it){
+    const val=it.inp.value.trim();
+    const a=norm(it.correct), v=norm(val);
+    const core=norm(it.correct.split(/\(|<span/)[0]);
+    const good = v.length>0 && (a===v || core===v || (a.includes(v) && v.length>=Math.max(1,Math.ceil(core.length*0.6))));
+    it.done=true; it.ok=good;
+    it.fb.innerHTML = (val ? (good?'<span class="v g">✔ Looks right</span> · ':'<span class="v r">Compare:</span> ') : '<span class="v">Answer:</span> ') + it.correct;
+    it.fb.classList.add('show');
+    it.li.classList.toggle('ok', !!val && good); it.li.classList.toggle('bad', !!val && !good);
+    upd(it.g);
+  }
+  function resetGroup(g){
+    g.items.forEach(it=>{
+      it.done=false; it.chosen=null; it.ok=false; it.fb.classList.remove('show'); it.fb.innerHTML='';
+      it.li.classList.remove('ok','bad'); const tl=it.li.querySelector('.qtools'); if(tl) tl.style.display='';
+      if (it.btns) it.btns.forEach(b=>{b.disabled=false; b.classList.remove('sel','right','wrong');});
+      if (it.inp) it.inp.value='';
+    });
+    upd(g);
+  }
+  function upd(g){
+    const n=g.items.length;
+    const done=g.items.filter(i=>i.done);
+    const right=done.filter(i=>i.type==='fill'? i.ok : i.chosen===i.correct).length;
+    if (g.exam){
+      const picked=g.items.filter(i=>i.type==='fill'? i.inp.value.trim() : i.chosen!=null).length;
+      g.score.textContent = done.length ? right+' / '+n+' correct ('+done.length+' checked)' : picked+' / '+n+' answered';
+    } else g.score.textContent = right+' / '+n+(done.length<n?'  ('+done.length+' done)':'');
+  }
+
+  // ---------- find the groups ----------
+  const typeOf = t => /Multiple choice/i.test(t)?'mc' : /True\s*\/\s*False/i.test(t)?'tf' : /Fill in the blank/i.test(t)?'fill' : null;
+  document.querySelectorAll('main h4').forEach(h4=>{
+    const type=typeOf(h4.textContent); if(!type) return;
+    let ol=h4.nextElementSibling; if(!ol||ol.tagName!=='OL') return;
+    const n=[...ol.children].filter(x=>x.tagName==='LI').length;
+    const part=(h4.textContent.match(/^Part\s+([A-Z])/)||[])[1];
+    let keyHtml=null, exam=false;
+    if (part){ // mock exam: key is a <p><b>Part X:</b> … inside the "Answer key" details
+      exam=true;
+      let s=ol.nextElementSibling;
+      while(s && !(s.tagName==='DETAILS' && /Answer key/.test(s.querySelector('summary')?.textContent||''))) s=s.nextElementSibling;
+      if(!s) return;
+      const p=[...s.querySelectorAll('p')].find(p=>{const b=p.querySelector('b');return b&&p.firstElementChild===b&&new RegExp('^Part '+part+'\\b').test(b.textContent);});
+      if(!p) return;
+      const c=p.cloneNode(true); c.querySelector('b').remove(); keyHtml=c.innerHTML;
+    } else {
+      const d=ol.nextElementSibling; if(!d||d.tagName!=='DETAILS') return;
+      const c=d.cloneNode(true); c.querySelector('summary').remove(); keyHtml=c.innerHTML;
+      d.querySelector('summary').textContent='Show all answers at once';
+    }
+    const key=parseKey(keyHtml,n); if(!key) return;
+    buildGroup(h4,ol,key,type,exam);
+  });
+
+  // ---------- exams: per-question answers for Parts D/E/F ----------
+  document.querySelectorAll('main details').forEach(det=>{
+    if(!/Answer key/.test(det.querySelector('summary')?.textContent||'')) return;
+    const entries={}; let cur=null;
+    [...det.children].forEach(ch=>{
+      if(ch.tagName==='SUMMARY') return;
+      const b=ch.tagName==='P' && ch.firstElementChild && ch.firstElementChild.tagName==='B' ? ch.firstElementChild.textContent.trim() : null;
+      if (b!==null){ const m=b.match(/^([D-Z]\d+)\b/); cur = m ? (entries[m[1]]=[]) : null; }
+      if (cur) cur.push(ch);
+    });
+    // walk back to the exam heading
+    let s=det.previousElementSibling; const qs=[];
+    while(s && !(s.tagName==='H3' && s.classList.contains('exam'))){ qs.unshift(s); s=s.previousElementSibling; }
+    qs.forEach((q,i)=>{
+      if(q.tagName!=='P') return;
+      const b=q.firstElementChild; if(!b||b.tagName!=='B') return;
+      const m=b.textContent.trim().match(/^([D-Z]\d+)\.?$/); if(!m||!entries[m[1]]) return;
+      // insert after the question's last element (before next h4 / labelled p / details)
+      let last=q, nx=q.nextElementSibling;
+      while(nx && nx!==det && nx.tagName!=='H4' && nx.tagName!=='DETAILS' && !(nx.tagName==='P' && nx.firstElementChild?.tagName==='B' && /^[A-Z]\d+\.?$/.test(nx.firstElementChild.textContent.trim()))){ last=nx; nx=nx.nextElementSibling; }
+      const d=el('details','qans'); d.append(el('summary',null,'Show answer to '+m[1]));
+      entries[m[1]].forEach(x=>d.append(x.cloneNode(true)));
+      last.after(d);
+    });
+  });
+})();
+</script>
+
 </body>
 </html>
