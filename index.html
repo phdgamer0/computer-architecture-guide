@@ -35,7 +35,8 @@ nav.toc a:hover{background:var(--box)}
 nav.toc .ch{font-weight:700;margin-top:12px;color:var(--accent)}
 nav.toc .sub{padding-left:16px;color:var(--muted)}
 main{flex:1;min-width:0;padding:24px 40px 80px}
-@media (max-width:900px){nav.toc{display:none} main{padding:16px}}
+.menubtn{display:none}
+@media (max-width:900px){nav.toc{position:fixed;left:0;top:0;bottom:0;height:auto;z-index:60;width:min(85vw,300px);background:var(--bg);transform:translateX(-105%);transition:transform .2s;box-shadow:4px 0 18px rgba(0,0,0,.25);padding-bottom:70px} body.navopen nav.toc{transform:none} main{padding:16px} .menubtn{display:block;position:fixed;left:14px;bottom:14px;z-index:61;background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:14px;cursor:pointer}}
 h1{font-size:2.1rem;line-height:1.2;margin:.2em 0}
 h2{font-size:1.65rem;margin-top:2.6em;padding-top:.4em;border-top:3px solid var(--accent)}
 h3{font-size:1.25rem;margin-top:2em;color:var(--accent)}
@@ -101,9 +102,10 @@ details summary{cursor:pointer;font-weight:600}
     <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
   </defs>
 </svg>
+<button class="menubtn" onclick="document.body.classList.toggle('navopen')">☰ Contents</button>
 <button class="themebtn" onclick="var r=document.documentElement;r.dataset.theme=(r.dataset.theme==='dark'||(!r.dataset.theme&&matchMedia('(prefers-color-scheme: dark)').matches))?'light':'dark'">◐ theme</button>
 <div class="layout">
-<nav class="toc">
+<nav class="toc" onclick="if(event.target.tagName==='A')document.body.classList.remove('navopen')">
   <div style="font-weight:800;font-size:15px">Computer Architecture<br><span style="color:var(--muted);font-weight:500">Bölüm 4 – 6 study guide</span></div>
   <a href="#start" class="ch">0 · Read me first</a>
   <a href="#ch4" class="ch">4 · Register Transfer &amp; Micro-ops</a>
@@ -129,6 +131,7 @@ details summary{cursor:pointer;font-weight:600}
   <a class="sub" href="#s58">5.8 Memory-reference</a>
   <a class="sub" href="#s59">5.9 I/O &amp; interrupt</a>
   <a class="sub" href="#s510">5.10 Full description + AC logic</a>
+  <a class="sub" href="#s5t6">5.10b Table 5-6 (all control functions)</a>
   <a class="sub" href="#s511">5.11 Full trace examples</a>
   <a class="sub" href="#s5x">5.12 Exam-style questions</a>
   <a href="#ch6" class="ch">6 · Programming the Basic Computer</a>
@@ -143,6 +146,10 @@ details summary{cursor:pointer;font-weight:600}
   <a href="#gloss" class="ch">Glossary TR ↔ EN</a>
   <a href="#cheat" class="ch">Exam cheat sheet</a>
   <a href="#practice" class="ch">Practice questions</a>
+  <a href="#past" class="ch">Past exam questions</a>
+  <a class="sub" href="#past-vize">Vize questions</a>
+  <a class="sub" href="#past-u4">Ünite 4 homework</a>
+  <a class="sub" href="#past-u5">Ünite 5 homework</a>
   <a href="#exams" class="ch">Mock exams</a>
   <a class="sub" href="#exam1">Exam 1</a>
   <a class="sub" href="#exam2">Exam 2</a>
@@ -1876,6 +1883,64 @@ INR(AC) = rB5
 CLR(AC) = rB11</pre>
 </div>
 
+<h3 id="s5t6">5.10b Table 5-6: every control function in one place <span class="tr">Çizelge 5.6: Temel bilgisayarın denetim fonksiyonları ve mikro işlemleri</span></h3>
+<p>This table is the summary of the whole Basic Computer. Past exams ask you to <b>use it</b>: "find every case that changes register X, then draw the gates for X's LD, INR and CLR inputs" <span class="tr">… etkileyen durumları Çizelge 5.6'yı kullanarak bulunuz</span>. Learn to read it, and the gate questions become mechanical.</p>
+<table>
+<tr><th>Phase</th><th>Control function</th><th>Micro-operations</th></tr>
+<tr><td rowspan="3"><b>Fetch</b></td><td class="mono">R'T0</td><td class="mono">AR ← PC</td></tr>
+<tr><td class="mono">R'T1</td><td class="mono">IR ← M[AR], PC ← PC + 1</td></tr>
+<tr><td class="mono">R'T2</td><td class="mono">D0…D7 ← Decode IR(12–14), AR ← IR(0–11), I ← IR(15)</td></tr>
+<tr><td><b>Indirect</b></td><td class="mono">D7'IT3</td><td class="mono">AR ← M[AR]</td></tr>
+<tr><td rowspan="4"><b>Interrupt</b></td><td class="mono">T0'T1'T2'(IEN)(FGI + FGO)</td><td class="mono">R ← 1</td></tr>
+<tr><td class="mono">RT0</td><td class="mono">AR ← 0, TR ← PC</td></tr>
+<tr><td class="mono">RT1</td><td class="mono">M[AR] ← TR, PC ← 0</td></tr>
+<tr><td class="mono">RT2</td><td class="mono">PC ← PC + 1, IEN ← 0, R ← 0, SC ← 0</td></tr>
+<tr><td rowspan="2"><b>AND</b></td><td class="mono">D0T4</td><td class="mono">DR ← M[AR]</td></tr>
+<tr><td class="mono">D0T5</td><td class="mono">AC ← AC ∧ DR, SC ← 0</td></tr>
+<tr><td rowspan="2"><b>ADD</b></td><td class="mono">D1T4</td><td class="mono">DR ← M[AR]</td></tr>
+<tr><td class="mono">D1T5</td><td class="mono">AC ← AC + DR, E ← Cout, SC ← 0</td></tr>
+<tr><td rowspan="2"><b>LDA</b></td><td class="mono">D2T4</td><td class="mono">DR ← M[AR]</td></tr>
+<tr><td class="mono">D2T5</td><td class="mono">AC ← DR, SC ← 0</td></tr>
+<tr><td><b>STA</b></td><td class="mono">D3T4</td><td class="mono">M[AR] ← AC, SC ← 0</td></tr>
+<tr><td><b>BUN</b></td><td class="mono">D4T4</td><td class="mono">PC ← AR, SC ← 0</td></tr>
+<tr><td rowspan="2"><b>BSA</b></td><td class="mono">D5T4</td><td class="mono">M[AR] ← PC, AR ← AR + 1</td></tr>
+<tr><td class="mono">D5T5</td><td class="mono">PC ← AR, SC ← 0</td></tr>
+<tr><td rowspan="3"><b>ISZ</b></td><td class="mono">D6T4</td><td class="mono">DR ← M[AR]</td></tr>
+<tr><td class="mono">D6T5</td><td class="mono">DR ← DR + 1</td></tr>
+<tr><td class="mono">D6T6</td><td class="mono">M[AR] ← DR, if (DR = 0) then (PC ← PC + 1), SC ← 0</td></tr>
+<tr><td><b>Register-ref.</b><br>r = D7I'T3</td><td class="mono">r</td><td class="mono">SC ← 0 (then CLA rB11 … HLT rB0, see 5.7)</td></tr>
+<tr><td><b>I/O</b><br>p = D7IT3</td><td class="mono">p</td><td class="mono">SC ← 0 (then INP pB11 … IOF pB6, see 5.9)</td></tr>
+</table>
+
+<div class="box idea"><span class="t">Recipe: control gates for any register X <span class="tr">bir yazacın denetim kapıları</span></span>
+<ol style="margin:0">
+<li>Scan the table (including the register-reference and I/O rows) for every statement with <b>X</b> on the left of ←.</li>
+<li>Sort them by type. <code>X ← something</code> goes to <b>LD</b>, <code>X ← X + 1</code> to <b>INR</b>, and <code>X ← 0</code> to <b>CLR</b>.</li>
+<li>Each input is the <b>OR</b> of the control functions in its group. Factor out common terms to save gates (e.g. D0T4 + D1T4 = (D0 + D1)T4).</li>
+<li>Draw: one AND gate per term, then an OR gate into the input. A group with no terms means the input is unused (tied to 0).</li>
+</ol>
+</div>
+
+<div class="box ex"><span class="t">Worked: AR, PC, DR, SC, memory Read/Write</span>
+<table>
+<tr><th>Signal</th><th>Boolean function</th><th>Comes from</th></tr>
+<tr><td class="mono">LD(AR)</td><td class="mono">R'T0 + R'T2 + D7'IT3</td><td>AR ← PC, AR ← IR(0–11), AR ← M[AR]</td></tr>
+<tr><td class="mono">INR(AR)</td><td class="mono">D5T4</td><td>AR ← AR + 1 (BSA)</td></tr>
+<tr><td class="mono">CLR(AR)</td><td class="mono">RT0</td><td>AR ← 0 (interrupt)</td></tr>
+<tr><td class="mono">LD(PC)</td><td class="mono">D4T4 + D5T5</td><td>PC ← AR (BUN, BSA)</td></tr>
+<tr><td class="mono">INR(PC)</td><td class="mono">R'T1 + RT2 + D6T6·(DR=0) + rB4·AC(15)' + rB3·AC(15) + rB2·(AC=0) + rB1·E' + pB9·FGI + pB8·FGO</td><td>fetch, interrupt, and every skip</td></tr>
+<tr><td class="mono">CLR(PC)</td><td class="mono">RT1</td><td>PC ← 0 (interrupt)</td></tr>
+<tr><td class="mono">LD(DR)</td><td class="mono">(D0 + D1 + D2 + D6)T4</td><td>DR ← M[AR]</td></tr>
+<tr><td class="mono">INR(DR)</td><td class="mono">D6T5</td><td>DR ← DR + 1 (ISZ)</td></tr>
+<tr><td class="mono">CLR(DR)</td><td class="mono">0 (never)</td><td>no DR ← 0 anywhere</td></tr>
+<tr><td class="mono">Read</td><td class="mono">R'T1 + D7'IT3 + (D0 + D1 + D2 + D6)T4</td><td>every … ← M[AR]</td></tr>
+<tr><td class="mono">Write</td><td class="mono">D3T4 + D5T4 + D6T6 + RT1</td><td>every M[AR] ← …</td></tr>
+<tr><td class="mono">CLR(SC)</td><td class="mono">RT2 + D7T3 + (D0 + D1 + D2 + D5)T5 + (D3 + D4)T4 + D6T6</td><td>every SC ← 0 (D7T3 = r + p)</td></tr>
+<tr><td class="mono">INR(SC)</td><td class="mono">CLR(SC)'</td><td>count up whenever not clearing</td></tr>
+</table>
+In the exam answers, (DR = 0) and (AC = 0) are written as the detector outputs <b>z<sub>DR</sub></b> and <b>z<sub>AC</sub></b>: 1 when every bit is 0.
+</div>
+
 <h3 id="s511">5.11 Full trace examples <span class="tr">Adım adım örnekler</span></h3>
 <div class="box ex"><span class="t">Trace 1 · ADD direct</span>
 Initial state: PC = 020, AC = 0005, M[020] = <b>1083</b> (ADD 083, I = 0), M[083] = 0007.
@@ -3177,6 +3242,369 @@ NEG,  HEX 0
 </ol>
 
 <!-- ===================================================== MOCK EXAMS -->
+<!-- ===================================================== PAST QUESTIONS -->
+<h2 id="past">Past exam &amp; homework questions <span class="tr" style="font-size:.7em">Çıkmış sorular (OMÜ BİL305)</span></h2>
+<p>These are the questions from your <i>Sorular</i> folder that fall inside Bölüm 4–6: the Ünite 4 and Ünite 5 homework sheets (Mano end-of-chapter problems) and the <b>vize</b> paper. After each one there is a <b>similar question</b> <span class="tr">benzer soru</span> with a new answer, so you can practise the same pattern.</p>
+<div class="box warn"><span class="t">Skipped as out of scope</span>
+The <b>final (26.01.2022)</b> and <b>bütünleme (07.02.2022)</b> papers, and most of <i>Çıkabilecek Sorular.txt</i>, are about Mano chapters 8–9: 0/1/2/3-address instructions, addressing modes, reverse Polish / stack programs, pipeline hazards, interrupt types, RISC vs CISC, the stack pointer and SIMD. None of that is in Bölüm 4–6, so it is not included. The vize, which <i>is</i> on Bölüm 4–6, is covered in full below.
+</div>
+
+<h3 id="past-vize">Vize (midterm) questions <span class="tr">Vize soruları</span></h3>
+<p class="mut" style="color:var(--muted)">These come from two photos of the same paper, <i>bilgisayar mimarisi vize.jpeg</i> and <i>Mimari soru.jpeg</i>, which contain the same three questions.</p>
+
+<div class="box ex"><span class="t">Vize 1 · Sola kaydırma, dairesel sola kaydırma ve aritmetik sola kaydırma arasındaki farkı çizerek gösteriniz.</span>
+<p>(Show the difference between shift left, circular shift left and arithmetic shift left with a drawing.)</p>
+<details><summary>Show answer</summary>
+<p>All three move every bit one place to the left. They differ only in <b>what enters bit 0</b> and <b>what happens to the bit that leaves bit n−1</b>. Example: R = <span class="bits">1011 0010</span>.</p>
+<figure>
+<svg viewBox="0 0 700 300" role="img" aria-label="shl, cil and ashl compared">
+  <text x="10" y="54" class="b">shl</text><text x="10" y="70" class="sm mut">logical</text>
+  <rect class="bx" x="140" y="36" width="272" height="34"/><text x="276" y="59" text-anchor="middle" class="bits">0 1 1 0  0 1 0 0</text>
+  <path class="wr" d="M140 53 H100" marker-end="url(#ar)"/><text x="60" y="44" class="sm red">bit 7 (1)</text><text x="66" y="88" class="sm red">is lost</text>
+  <path class="wa" d="M470 53 H414" marker-end="url(#ar)"/><text x="476" y="57" class="acc b">0</text><text x="494" y="57" class="sm">always 0 enters bit 0</text>
+  <text x="10" y="144" class="b">cil</text><text x="10" y="160" class="sm mut">circular</text>
+  <rect class="bx" x="140" y="126" width="272" height="34"/><text x="276" y="149" text-anchor="middle" class="bits">0 1 1 0  0 1 0 1</text>
+  <path class="wg" d="M140 143 H120 V110 H440 V143 H414" marker-end="url(#ar)"/>
+  <text x="450" y="130" class="sm grn">bit 7 wraps around into bit 0</text><text x="450" y="146" class="sm grn">nothing is lost</text>
+  <text x="10" y="234" class="b">ashl</text><text x="10" y="250" class="sm mut">arithmetic</text>
+  <rect class="bxr" x="140" y="216" width="34" height="34"/><text x="157" y="239" text-anchor="middle" class="bits">0</text>
+  <rect class="bx" x="174" y="216" width="238" height="34"/><text x="293" y="239" text-anchor="middle" class="bits">1 1 0  0 1 0 0</text>
+  <path class="wa" d="M470 233 H414" marker-end="url(#ar)"/><text x="476" y="237" class="acc b">0</text><text x="494" y="237" class="sm">0 enters bit 0 (= ×2)</text>
+  <text x="140" y="276" class="sm red">sign bit changed 1 → 0, so overflow: V = R7 ⊕ R6 = 1 ⊕ 0 = 1</text>
+  <text x="140" y="292" class="sm mut">(−78 × 2 = −156 does not fit in 8 bits)</text>
+</svg>
+</figure>
+<table>
+<tr><th></th><th>Bit 0 gets</th><th>Old bit n−1</th><th>Used for</th></tr>
+<tr><td>shl <span class="tr">mantıksal sola</span></td><td>0</td><td>lost</td><td>bit patterns</td></tr>
+<tr><td>cil <span class="tr">dairesel sola</span></td><td>old bit n−1</td><td>goes to bit 0</td><td>rotations, nothing lost (in the Basic Computer CIL rotates through E)</td></tr>
+<tr><td>ashl <span class="tr">aritmetik sola</span></td><td>0</td><td>lost; check overflow</td><td>signed × 2. Overflow if the sign bit changes: V = R<sub>n−1</sub> ⊕ R<sub>n−2</sub></td></tr>
+</table>
+</details>
+<p><b>Similar question:</b> do the same for <b>shr, cir and ashr</b> with R = <span class="bits">1001 0110</span>.</p>
+<details><summary>Show answer</summary>
+shr = <span class="bits">0100 1011</span> (0 enters bit 7, bit 0 = 0 is lost) · cir = <span class="bits">0100 1011</span> (bit 0 = 0 wraps into bit 7; the result happens to equal shr because the bit that wrapped was 0) · ashr = <span class="bits">1100 1011</span> (the sign bit 1 stays and is copied right: −106 / 2 = −53 ✔). ashr never overflows. See also Figure 4-10.
+</details>
+</div>
+
+<div class="box ex"><span class="t">Vize 2 · Bölüm 5'teki mikroişlemcide DR'yi etkileyen durumları Çizelge 5.6'yı kullanarak bulunuz. Bu durumlar için DR'nin yükle (LD), sıfırla (CLR) ve arttır (INR) girişlerini besleyen sayısal devreleri çiziniz.</span>
+<p>(Using Table 5-6, find every case that changes DR, and draw the circuits that drive DR's LD, CLR and INR inputs.)</p>
+<details><summary>Show answer</summary>
+<p><b>Step 1: every row with DR on the left</b> (see <a href="#s5t6">Table 5-6</a>):</p>
+<table>
+<tr><th>Control</th><th>Micro-op</th><th>Input</th></tr>
+<tr><td class="mono">D0T4</td><td class="mono">DR ← M[AR]</td><td>LD (AND)</td></tr>
+<tr><td class="mono">D1T4</td><td class="mono">DR ← M[AR]</td><td>LD (ADD)</td></tr>
+<tr><td class="mono">D2T4</td><td class="mono">DR ← M[AR]</td><td>LD (LDA)</td></tr>
+<tr><td class="mono">D6T4</td><td class="mono">DR ← M[AR]</td><td>LD (ISZ)</td></tr>
+<tr><td class="mono">D6T5</td><td class="mono">DR ← DR + 1</td><td>INR (ISZ)</td></tr>
+</table>
+<p><b>Step 2: the functions</b></p>
+<pre style="margin:0">LD(DR)  = D0T4 + D1T4 + D2T4 + D6T4 = (D0 + D1 + D2 + D6) T4
+INR(DR) = D6T5
+CLR(DR) = 0            / never cleared: tied to 0</pre>
+<p><b>Step 3: the circuit</b></p>
+<figure>
+<svg viewBox="0 0 640 240" role="img" aria-label="Control gates for DR">
+  <g class="sm b"><text x="20" y="44">D0</text><text x="20" y="59">D1</text><text x="20" y="74">D2</text><text x="20" y="89">D6</text><text x="20" y="118">T4</text><text x="20" y="178">T5</text></g>
+  <path class="w" d="M44 40 H130"/><path class="w" d="M44 55 H134"/><path class="w" d="M44 70 H134"/><path class="w" d="M44 85 H130"/>
+  <path class="bx" d="M126,30 Q140,60 126,90 Q154,90 168,60 Q154,30 126,30 z"/><text x="132" y="104" class="sm mut">OR</text>
+  <path class="w" d="M168 60 H200 V58 H220"/>
+  <path class="w" d="M44 114 H205 V72 H220"/>
+  <path class="bx" d="M220,50 h15 a15,15 0 0 1 0,30 h-15 z"/>
+  <path class="w" d="M250 65 H330 V55 H418" marker-end="url(#ar)"/>
+  <circle class="dot" cx="100" cy="85" r="3"/><path class="w" d="M100 85 V160 H220"/>
+  <path class="w" d="M44 174 H220"/>
+  <path class="bx" d="M220,152 h15 a15,15 0 0 1 0,30 h-15 z"/>
+  <path class="w" d="M250 167 H350 V75 H418" marker-end="url(#ar)"/>
+  <text x="372" y="100" class="b">0</text><path class="w" d="M386 95 H418" marker-end="url(#ar)"/>
+  <rect class="bxa" x="420" y="40" width="160" height="66"/>
+  <text x="430" y="59" class="sm">LD</text><text x="430" y="79" class="sm">INR</text><text x="430" y="99" class="sm">CLR</text>
+  <text x="530" y="78" text-anchor="middle" class="b">DR</text>
+  <path class="w" d="M630 73 H582" marker-end="url(#ar)"/><text x="590" y="64" class="sm">clock</text>
+  <text x="270" y="50" class="sm acc">LD = (D0+D1+D2+D6)T4</text><text x="270" y="200" class="sm acc">INR = D6T5</text>
+</svg>
+</figure>
+</details>
+<p><b>Similar question:</b> do the same for <b>AR</b> and for <b>TR</b>.</p>
+<details><summary>Show answer</summary>
+<b>AR:</b> LD(AR) = R'T0 + R'T2 + D7'IT3 (from AR ← PC, AR ← IR(0–11), AR ← M[AR]) · INR(AR) = D5T4 (BSA) · CLR(AR) = RT0 (interrupt).<br>
+<b>TR:</b> LD(TR) = RT0 (TR ← PC in the interrupt cycle) · INR(TR) = 0 · CLR(TR) = 0.<br>
+Circuit: one AND gate per product term, one OR gate per input with more than one term. For AR, LD is a 3-input OR of R'T0, R'T2 and D7'IT3.
+</details>
+</div>
+
+<div class="box ex"><span class="t">Vize 3 · Bölüm 5'teki örnek mikroişlemciye ait aşağıdaki birleştirici dil programının adres-sembol tablosunu oluşturunuz ve 16'lık karşılığını bulunuz. Programın toplam çevrim süresi kaç saat darbesidir?</span>
+<p>(Build the address-symbol table and the hex code of the program below for the Basic Computer. How many clock pulses does the whole program take?) This is the <b>double-precision addition</b> <span class="tr">çift duyarlıklı toplama</span> program from 6.5.</p>
+<pre>        ORG 010
+        LDA AL
+        ADD BL
+        STA CL
+        CLA
+        CIL
+        ADD AH
+        ADD BH
+        STA CH
+        HLT
+<span class="l">AL,</span>     DEC 40
+<span class="l">AH,</span>     DEC 7
+<span class="l">BL,</span>     DEC 2
+<span class="l">BH,</span>     DEC 25
+<span class="l">CL,</span>     DEC 0
+<span class="l">CH,</span>     DEC 0
+        END</pre>
+<details><summary>Show answer</summary>
+<p><b>1) First pass: give every line an address</b>, starting from ORG 010 (hex) and counting up in hex.</p>
+<p><b>2) Address-symbol table</b> <span class="tr">adres-sembol tablosu</span>:</p>
+<table>
+<tr><th>Symbol</th><th>AL</th><th>AH</th><th>BL</th><th>BH</th><th>CL</th><th>CH</th></tr>
+<tr><th>Address (hex)</th><td class="mono">019</td><td class="mono">01A</td><td class="mono">01B</td><td class="mono">01C</td><td class="mono">01D</td><td class="mono">01E</td></tr>
+</table>
+<p>Some lecturers want this table in the form the assembler stores it in memory (Mano's Table 6-12): each symbol in ASCII, two characters per word, then a word holding its address (LC). The ASCII codes are A = 41, B = 42, C = 43, H = 48, L = 4C, "," = 2C and space = 20. A 2-letter label is padded with a space after the comma.</p>
+<table>
+<tr><th>Word</th><th>Contents</th><th>Hex</th><th>Word</th><th>Contents</th><th>Hex</th></tr>
+<tr><td>1</td><td>A L</td><td class="mono">414C</td><td>10</td><td>B H</td><td class="mono">4248</td></tr>
+<tr><td>2</td><td>, ␣</td><td class="mono">2C20</td><td>11</td><td>, ␣</td><td class="mono">2C20</td></tr>
+<tr><td>3</td><td>(LC)</td><td class="mono">0019</td><td>12</td><td>(LC)</td><td class="mono">001C</td></tr>
+<tr><td>4</td><td>A H</td><td class="mono">4148</td><td>13</td><td>C L</td><td class="mono">434C</td></tr>
+<tr><td>5</td><td>, ␣</td><td class="mono">2C20</td><td>14</td><td>, ␣</td><td class="mono">2C20</td></tr>
+<tr><td>6</td><td>(LC)</td><td class="mono">001A</td><td>15</td><td>(LC)</td><td class="mono">001D</td></tr>
+<tr><td>7</td><td>B L</td><td class="mono">424C</td><td>16</td><td>C H</td><td class="mono">4348</td></tr>
+<tr><td>8</td><td>, ␣</td><td class="mono">2C20</td><td>17</td><td>, ␣</td><td class="mono">2C20</td></tr>
+<tr><td>9</td><td>(LC)</td><td class="mono">001B</td><td>18</td><td>(LC)</td><td class="mono">001E</td></tr>
+</table>
+<p><b>3) Second pass: hex code</b> <span class="tr">16'lık karşılığı</span> and <b>4) clock pulses</b> per instruction (from 5.11: register-ref = 4, STA = 5, AND/ADD/LDA = 6):</p>
+<table>
+<tr><th>Address</th><th>Line</th><th>Hex</th><th>How</th><th>Clock pulses</th></tr>
+<tr><td class="mono">010</td><td class="mono">LDA AL</td><td class="mono">2019</td><td>LDA = 2, AL = 019</td><td>6</td></tr>
+<tr><td class="mono">011</td><td class="mono">ADD BL</td><td class="mono">101B</td><td>ADD = 1, BL = 01B</td><td>6</td></tr>
+<tr><td class="mono">012</td><td class="mono">STA CL</td><td class="mono">301D</td><td>STA = 3, CL = 01D</td><td>5</td></tr>
+<tr><td class="mono">013</td><td class="mono">CLA</td><td class="mono">7800</td><td>register-ref</td><td>4</td></tr>
+<tr><td class="mono">014</td><td class="mono">CIL</td><td class="mono">7040</td><td>register-ref</td><td>4</td></tr>
+<tr><td class="mono">015</td><td class="mono">ADD AH</td><td class="mono">101A</td><td>AH = 01A</td><td>6</td></tr>
+<tr><td class="mono">016</td><td class="mono">ADD BH</td><td class="mono">101C</td><td>BH = 01C</td><td>6</td></tr>
+<tr><td class="mono">017</td><td class="mono">STA CH</td><td class="mono">301E</td><td>CH = 01E</td><td>5</td></tr>
+<tr><td class="mono">018</td><td class="mono">HLT</td><td class="mono">7001</td><td>register-ref</td><td>4</td></tr>
+<tr><td class="mono">019</td><td class="mono">AL, DEC 40</td><td class="mono">0028</td><td>40 = 28 hex</td><td>–</td></tr>
+<tr><td class="mono">01A</td><td class="mono">AH, DEC 7</td><td class="mono">0007</td><td></td><td>–</td></tr>
+<tr><td class="mono">01B</td><td class="mono">BL, DEC 2</td><td class="mono">0002</td><td></td><td>–</td></tr>
+<tr><td class="mono">01C</td><td class="mono">BH, DEC 25</td><td class="mono">0019</td><td>25 = 19 hex</td><td>–</td></tr>
+<tr><td class="mono">01D</td><td class="mono">CL, DEC 0</td><td class="mono">0000</td><td></td><td>–</td></tr>
+<tr><td class="mono">01E</td><td class="mono">CH, DEC 0</td><td class="mono">0000</td><td></td><td>–</td></tr>
+</table>
+<p><b>Total = 6 + 6 + 5 + 4 + 4 + 6 + 6 + 5 + 4 = 46 clock pulses</b> <span class="tr">46 saat darbesi</span>. The program has no loop or skip, so each instruction runs exactly once.</p>
+<p><b>Result (bonus):</b> CL = 40 + 2 = 42 = <b>002A</b>, with no carry, so E = 0. CLA, CIL → AC = 0000. Then 0 + 7 + 25 = 32, so CH = <b>0020</b>.</p>
+</details>
+<p><b>Similar question 1:</b> same tasks for the program below, using 3-letter labels.</p>
+<pre>        ORG 020
+        LDA NUM
+        CMA
+        INC
+        ADD VAL
+        STA RES
+        HLT
+<span class="l">NUM,</span>    DEC 9
+<span class="l">VAL,</span>    DEC 30
+<span class="l">RES,</span>    DEC 0
+        END</pre>
+<details><summary>Show answer</summary>
+<b>Address-symbol table:</b> NUM = 026 · VAL = 027 · RES = 028.<br>
+<b>ASCII form</b> (N = 4E, U = 55, M = 4D, V = 56, A = 41, L = 4C, R = 52, E = 45, S = 53): NUM → <code>4E55</code> "NU", <code>4D2C</code> "M,", <code>0026</code> · VAL → <code>5641</code>, <code>4C2C</code>, <code>0027</code> · RES → <code>5245</code>, <code>532C</code>, <code>0028</code>.<br>
+<b>Hex:</b> 020 <code>2026</code> · 021 <code>7200</code> · 022 <code>7020</code> · 023 <code>1027</code> · 024 <code>3028</code> · 025 <code>7001</code> · 026 <code>0009</code> · 027 <code>001E</code> · 028 <code>0000</code>.<br>
+<b>Clock pulses:</b> LDA 6 + CMA 4 + INC 4 + ADD 6 + STA 5 + HLT 4 = <b>29</b>.<br>
+<b>Result:</b> RES = 30 − 9 = 21 = <b>0015</b>.
+</details>
+<p><b>Similar question 2:</b> the vize program again, but with ORG 100, AL = DEC −1, AH = DEC 3, BL = DEC 1 and BH = DEC 4. Give the table, the hex code and the final CL, CH and E.</p>
+<details><summary>Show answer</summary>
+<b>Table:</b> AL = 109 · AH = 10A · BL = 10B · BH = 10C · CL = 10D · CH = 10E.<br>
+<b>Hex:</b> <code>2109 110B 310D 7800 7040 110A 110C 310E 7001</code>, then the data <code>FFFF 0003 0001 0004 0000 0000</code>.<br>
+<b>Run:</b> FFFF + 0001 = 1 0000, so CL = <b>0000</b> and E = 1. CLA, CIL → AC = 0001 (the carry) and E = AC(15) = 0. 0001 + 0003 + 0004 = 0008, so CH = <b>0008</b>. As a 32-bit number: 0003 FFFF + 0004 0001 = 0008 0000 ✔. Still <b>46 clock pulses</b>.
+</details>
+</div>
+
+<h3 id="past-u4">Ünite 4 homework <span class="tr">Ünite 4 soruları</span></h3>
+
+<div class="box ex"><span class="t">4-1 and 4-3</span>
+4-1: draw the block diagram for <code>yT2: R2 ← R1, R1 ← R2</code>. 4-3: implement <code>if (P = 1) then (R1 ← R2) else if (Q = 1) then (R1 ← R3)</code>.
+<details><summary>Show answer</summary>These are the same questions as <a href="#s4q">4.10</a> Questions 1 and 2, solved there with a diagram. In short: y AND T2 drives the Load input of <i>both</i> registers; R1's n outputs go to R2's inputs and R2's outputs go back to R1's inputs, all on one clock. For 4-3: <code>P: R1 ← R2</code> and <code>P'Q: R1 ← R3</code>.</details>
+<p><b>Similar:</b> implement <code>if (P = 1) then R1 ← R2 else if (Q = 1) then R1 ← R3 else R1 ← R4</code>.</p>
+<details><summary>Show answer</summary><code>P: R1 ← R2</code> · <code>P'Q: R1 ← R3</code> · <code>P'Q': R1 ← R4</code>. R1's Load = P + P'Q + P'Q' = 1, so R1 loads on every clock. A 4×1 MUX in front of R1 chooses the source.</details>
+</div>
+
+<div class="box ex"><span class="t">4-6 · A bus system built with multiplexers has 16 registers of 32 bits. (a) How many select inputs does each MUX have? (b) What size are the MUXes? (c) How many MUXes are there?</span>
+<details><summary>Show answer</summary>(a) <b>4</b> select lines, since 2<sup>4</sup> = 16 registers. (b) <b>16 × 1</b>. (c) <b>32</b> MUXes, one for each bit.</details>
+<p><b>Similar:</b> 64 registers of 16 bits.</p>
+<details><summary>Show answer</summary>(a) 6 select lines (2<sup>6</sup> = 64) · (b) 64 × 1 · (c) 16 MUXes.</details>
+</div>
+
+<div class="box ex"><span class="t">4-7 · Explain each memory transfer: (a) R2 ← M[AR] (b) M[AR] ← R3 (c) R5 ← M[R5]</span>
+<p class="mut" style="color:var(--muted)">The sheet prints (c) as R5 ← M[AR], but its official answer is for R5 ← M[R5], the textbook version.</p>
+<details><summary>Show answer</summary>(a) Read the memory word whose address is in AR into R2. (b) Write the contents of R3 into the memory word whose address is in AR. (c) Read the memory word whose address is in R5 and put it into R5. This overwrites the address that R5 held.</details>
+<p><b>Similar:</b> explain <code>M[R1] ← R1</code> and <code>AR ← M[AR]</code>.</p>
+<details><summary>Show answer</summary><code>M[R1] ← R1</code>: write R1's value into the memory word whose address is R1's value. <code>AR ← M[AR]</code>: read the word at the address in AR and load it into AR. This is exactly the indirect-address step (D7'IT3) of the Basic Computer.</details>
+</div>
+
+<div class="box ex"><span class="t">4-8 · Draw the block diagram for <code>x + yz: AR ← AR + BR</code> (AR and BR are n-bit registers; x, y, z are control variables. + means OR in a control function and addition in a micro-operation.)</span>
+<details><summary>Show answer</summary>
+<figure>
+<svg viewBox="0 0 560 220" role="img" aria-label="AR loads AR plus BR when x or yz">
+  <rect class="bx" x="230" y="10" width="200" height="34"/><text x="330" y="32" text-anchor="middle" class="b">BR</text>
+  <path class="w" d="M330 44 V68" marker-end="url(#ar)"/><text x="336" y="60" class="sm">n</text>
+  <rect class="bxg" x="230" y="70" width="200" height="40"/><text x="330" y="95" text-anchor="middle" class="b">n-bit adder</text>
+  <path class="w" d="M330 110 V138" marker-end="url(#ar)"/><text x="336" y="128" class="sm">n (sum)</text>
+  <rect class="bxa" x="230" y="140" width="200" height="40"/><text x="330" y="165" text-anchor="middle" class="b">AR</text>
+  <path class="w" d="M330 180 V200 H470 V90 H432" marker-end="url(#ar)"/><text x="476" y="150" class="sm">AR fed back</text>
+  <path class="w" d="M545 160 H432" marker-end="url(#ar)"/><text x="500" y="152" class="sm">clock</text>
+  <g class="sm b"><text x="10" y="134">x</text><text x="10" y="164">y</text><text x="10" y="184">z</text></g>
+  <path class="w" d="M24 160 H60"/><path class="w" d="M24 180 H60"/>
+  <path class="bx" d="M60,152 h15 a15,15 0 0 1 0,30 h-15 z"/>
+  <path class="w" d="M90 167 H120 V166 H134"/><path class="w" d="M24 130 H120 V152 H134"/>
+  <path class="bx" d="M130,144 Q142,159 130,174 Q152,174 164,159 Q152,144 130,144 z"/>
+  <path class="w" d="M164 159 H228" marker-end="url(#ar)"/><text x="180" y="152" class="sm">Load</text>
+</svg>
+</figure>
+Load = x + yz: an AND gate for yz, then an OR gate with x. The adder adds BR and the current AR, and at the clock edge AR loads the sum if Load = 1.
+</details>
+<p><b>Similar:</b> <code>xy' + z: AR ← AR − BR</code>.</p>
+<details><summary>Show answer</summary>Load = xy' + z: an AND gate with x and y' (y through an inverter), then an OR gate with z. For the subtraction, put BR through inverters (or XOR gates with M = 1) into the adder and set the input carry C<sub>0</sub> = 1, so the adder computes AR + BR' + 1 = AR − BR.</details>
+</div>
+
+<div class="box ex"><span class="t">4-12 · For the adder-subtractor (Fig. 4-7), give S<sub>3</sub>S<sub>2</sub>S<sub>1</sub>S<sub>0</sub> and C<sub>4</sub>. M = 0 adds, M = 1 subtracts.</span>
+<table><tr><th></th><th>M</th><th>A</th><th>B</th></tr>
+<tr><td>a</td><td>0</td><td class="mono">0111</td><td class="mono">0110</td></tr><tr><td>b</td><td>0</td><td class="mono">1000</td><td class="mono">1001</td></tr><tr><td>c</td><td>1</td><td class="mono">1100</td><td class="mono">1000</td></tr><tr><td>d</td><td>1</td><td class="mono">0101</td><td class="mono">1010</td></tr><tr><td>e</td><td>1</td><td class="mono">0000</td><td class="mono">0001</td></tr></table>
+<details><summary>Show answer</summary>
+<table><tr><th></th><th>Operation</th><th>S</th><th>C<sub>4</sub></th><th>Meaning</th></tr>
+<tr><td>a</td><td>0111 + 0110</td><td class="mono">1101</td><td>0</td><td>7 + 6 = 13</td></tr>
+<tr><td>b</td><td>1000 + 1001</td><td class="mono">0001</td><td>1</td><td>8 + 9 = 17 = 16 + 1</td></tr>
+<tr><td>c</td><td>1100 + 0111 + 1</td><td class="mono">0100</td><td>1</td><td>12 − 8 = 4</td></tr>
+<tr><td>d</td><td>0101 + 0101 + 1</td><td class="mono">1011</td><td>0</td><td>5 − 10 = −5 (2's complement)</td></tr>
+<tr><td>e</td><td>0000 + 1110 + 1</td><td class="mono">1111</td><td>0</td><td>0 − 1 = −1</td></tr></table>
+With M = 1, each B bit is complemented (XOR with M) and C<sub>0</sub> = M = 1.</details>
+<p><b>Similar:</b> (a) M = 0, A = 1011, B = 0101 · (b) M = 1, A = 0110, B = 0011 · (c) M = 1, A = 0011, B = 0110.</p>
+<details><summary>Show answer</summary>(a) 1011 + 0101 = 1 0000 → S = <b>0000</b>, C<sub>4</sub> = 1 (11 + 5 = 16) · (b) 0110 + 1100 + 1 = 1 0011 → S = <b>0011</b>, C<sub>4</sub> = 1 (6 − 3 = 3) · (c) 0011 + 1001 + 1 = 1101 → S = <b>1101</b>, C<sub>4</sub> = 0 (3 − 6 = −3).</details>
+</div>
+
+<div class="box ex"><span class="t">4-13 · Design a 4-bit combinational decrementer using four full adders.</span>
+<details><summary>Show answer</summary>
+A − 1 = A + (2's complement of 1) = A + <b>1111</b>. Wire every FA's B input to 1 and set the input carry C<sub>0</sub> = 0.
+<figure>
+<svg viewBox="0 0 640 170" role="img" aria-label="Decrementer from four full adders">
+  <g><rect class="bx" x="60" y="60" width="90" height="50"/><text x="105" y="90" text-anchor="middle" class="b">FA</text>
+  <rect class="bx" x="200" y="60" width="90" height="50"/><text x="245" y="90" text-anchor="middle" class="b">FA</text>
+  <rect class="bx" x="340" y="60" width="90" height="50"/><text x="385" y="90" text-anchor="middle" class="b">FA</text>
+  <rect class="bx" x="480" y="60" width="90" height="50"/><text x="525" y="90" text-anchor="middle" class="b">FA</text></g>
+  <g class="w"><path d="M85 24V58" marker-end="url(#ar)"/><path d="M225 24V58" marker-end="url(#ar)"/><path d="M365 24V58" marker-end="url(#ar)"/><path d="M505 24V58" marker-end="url(#ar)"/></g>
+  <g class="wa"><path d="M125 24V58" marker-end="url(#ar)"/><path d="M265 24V58" marker-end="url(#ar)"/><path d="M405 24V58" marker-end="url(#ar)"/><path d="M545 24V58" marker-end="url(#ar)"/></g>
+  <g class="sm b"><text x="76" y="18">A3</text><text x="216" y="18">A2</text><text x="356" y="18">A1</text><text x="496" y="18">A0</text></g>
+  <g class="sm b acc"><text x="121" y="18">1</text><text x="261" y="18">1</text><text x="401" y="18">1</text><text x="541" y="18">1</text></g>
+  <path class="w" d="M620 85 H572" marker-end="url(#ar)"/><text x="600" y="78" class="b">0</text>
+  <path class="w" d="M480 85 H432" marker-end="url(#ar)"/><path class="w" d="M340 85 H292" marker-end="url(#ar)"/><path class="w" d="M200 85 H152" marker-end="url(#ar)"/><path class="w" d="M60 85 H20" marker-end="url(#ar)"/>
+  <g class="wr"><path d="M105 110V140" marker-end="url(#ar)"/><path d="M245 110V140" marker-end="url(#ar)"/><path d="M385 110V140" marker-end="url(#ar)"/><path d="M525 110V140" marker-end="url(#ar)"/></g>
+  <g class="sm b red"><text x="96" y="158">D3</text><text x="236" y="158">D2</text><text x="376" y="158">D1</text><text x="516" y="158">D0</text></g>
+</svg>
+</figure>
+Check: A = 0101 → 0101 + 1111 = 1 0100 → D = 0100 = 4 ✔.
+</details>
+<p><b>Similar:</b> design a 4-bit incrementer from four full adders.</p>
+<details><summary>Show answer</summary>A + 1: wire every B input to 0 and set C<sub>0</sub> = 1. (Or set B<sub>0</sub> = 1, B<sub>1–3</sub> = 0 and C<sub>0</sub> = 0.) Check: 0111 + 0000 + 1 = 1000 ✔.</details>
+</div>
+
+<div class="box ex"><span class="t">4-20 · An 8-bit register holds 1001 1100. What does it hold after an arithmetic shift right? Does an arithmetic shift left of the original value overflow?</span>
+<details><summary>Show answer</summary>ashr: <b>1100 1110</b> (the sign bit 1 stays and is copied right). ashl: <b>0011 1000</b>, which <b>overflows</b>, because the negative number became positive (R<sub>7</sub> ⊕ R<sub>6</sub> = 1 ⊕ 0 = 1).</details>
+<p><b>Similar:</b> R = 0110 1001.</p>
+<details><summary>Show answer</summary>ashr = <b>0011 0100</b> (105 / 2 = 52, the remainder is lost) · ashl = <b>1101 0010</b>, which <b>overflows</b>: 0 ⊕ 1 = 1, a positive number became negative (105 × 2 = 210 &gt; 127).</details>
+</div>
+
+<div class="box ex"><span class="t">4-21 · Starting from R = 1101 1101, apply in order: logical shift left, circular shift right, logical shift right, circular shift left. What does R hold at the end?</span>
+<details><summary>Show answer</summary>shl → <b>1011 1010</b> · cir → <b>0101 1101</b> · shr → <b>0010 1110</b> · cil → <b>0101 1100</b>. Final R = <b>0101 1100</b>.</details>
+<p><b>Similar:</b> R = 1010 0111, with the same four shifts.</p>
+<details><summary>Show answer</summary>shl → 0100 1110 · cir → 0010 0111 · shr → 0001 0011 · cil → <b>0010 0110</b>.</details>
+</div>
+
+<div class="box ex"><span class="t">4-23 · Which of these register transfers is wrong? (a) xT: AR ← AR', AR ← 0 (b) yT: R1 ← R2, R1 ← R3 (c) zT: PC ← AR, PC ← PC + 1</span>
+<details><summary>Show answer</summary><b>All three are wrong.</b> Each one gives the <i>same</i> register two different things to do in one clock pulse. (a) You cannot complement and clear AR at the same time. (b) You cannot load two different values (R2 and R3) into R1 at the same time. (c) You cannot load a new value into PC and also increment it at the same time.</details>
+<p><b>Similar:</b> which are valid? (a) T: AR ← AR + 1, PC ← AR (b) T: R1 ← R2, R2 ← R1 (c) T: AC ← 0, AC ← AC'.</p>
+<details><summary>Show answer</summary>(a) Valid: different destinations, and PC gets the <i>old</i> AR. (b) Valid: a swap. (c) <b>Wrong</b>: two operations on AC at once.</details>
+</div>
+
+<h3 id="past-u5">Ünite 5 homework <span class="tr">Ünite 5 soruları</span></h3>
+
+<div class="box ex"><span class="t">5-1 · A computer uses a memory of 256K words of 32 bits. An instruction is stored in one memory word and has 4 parts: an indirect bit, an opcode, a register code that selects one of 64 registers, and an address part. (a) How many bits are in the opcode, register code and address? (b) Draw the instruction format. (c) How many bits are in the memory's data and address inputs?</span>
+<details><summary>Show answer</summary>256K = 2<sup>8</sup> × 2<sup>10</sup> = 2<sup>18</sup>, so the address is <b>18</b> bits. 64 = 2<sup>6</sup>, so the register code is <b>6</b> bits. The I bit is 1 bit. That gives 18 + 6 + 1 = 25, so the opcode = 32 − 25 = <b>7</b> bits.<br>
+(b) <span class="bits">| I (1) | opcode (7) | register (6) | address (18) |</span> = 32 bits.<br>
+(c) Data input: <b>32</b> bits. Address input: <b>18</b> bits.</details>
+<p><b>Similar:</b> 64K words of 24 bits, with a register code that selects one of 16 registers.</p>
+<details><summary>Show answer</summary>Address = 16 bits (64K = 2<sup>16</sup>) · register = 4 bits · I = 1 bit · opcode = 24 − 21 = <b>3</b> bits. Data input 24 bits, address input 16 bits.</details>
+</div>
+
+<div class="box ex"><span class="t">5-7 · Which two instructions set the E flip-flop to 1 in the Basic Computer?</span>
+<details><summary>Show answer</summary><code>CLE</code> (E ← 0), then <code>CME</code> (E ← E' = 1).</details>
+<p><b>Similar:</b> which two instructions make AC = FFFF? Which two make AC = 0001?</p>
+<details><summary>Show answer</summary>FFFF: <code>CLA</code>, then <code>CMA</code>. 0001: <code>CLA</code>, then <code>INC</code>.</details>
+</div>
+
+<div class="box ex"><span class="t">5-9 · AC = A937, E = 1, PC = 021. For each register-reference instruction, starting from these values each time, give AC, E, PC, AR and IR in hex.</span>
+<details><summary>Show answer</summary>
+After fetch PC = 022, and AR = IR(0–11) from T2. A937 = <span class="bits">1010 1001 0011 0111</span>.
+<table><tr><th></th><th>E</th><th>AC</th><th>PC</th><th>AR</th><th>IR</th></tr>
+<tr><td>Initial</td><td>1</td><td class="mono">A937</td><td class="mono">021</td><td>–</td><td>–</td></tr>
+<tr><td>CLA</td><td>1</td><td class="mono">0000</td><td class="mono">022</td><td class="mono">800</td><td class="mono">7800</td></tr>
+<tr><td>CLE</td><td>0</td><td class="mono">A937</td><td class="mono">022</td><td class="mono">400</td><td class="mono">7400</td></tr>
+<tr><td>CMA</td><td>1</td><td class="mono">56C8</td><td class="mono">022</td><td class="mono">200</td><td class="mono">7200</td></tr>
+<tr><td>CME</td><td>0</td><td class="mono">A937</td><td class="mono">022</td><td class="mono">100</td><td class="mono">7100</td></tr>
+<tr><td>CIR</td><td>1</td><td class="mono">D49B</td><td class="mono">022</td><td class="mono">080</td><td class="mono">7080</td></tr>
+<tr><td>CIL</td><td>1</td><td class="mono">526F</td><td class="mono">022</td><td class="mono">040</td><td class="mono">7040</td></tr>
+<tr><td>INC</td><td>1</td><td class="mono">A938</td><td class="mono">022</td><td class="mono">020</td><td class="mono">7020</td></tr>
+<tr><td>SPA</td><td>1</td><td class="mono">A937</td><td class="mono">022</td><td class="mono">010</td><td class="mono">7010</td></tr>
+<tr><td>SNA</td><td>1</td><td class="mono">A937</td><td class="mono">023</td><td class="mono">008</td><td class="mono">7008</td></tr>
+<tr><td>SZA</td><td>1</td><td class="mono">A937</td><td class="mono">022</td><td class="mono">004</td><td class="mono">7004</td></tr>
+<tr><td>SZE</td><td>1</td><td class="mono">A937</td><td class="mono">022</td><td class="mono">002</td><td class="mono">7002</td></tr>
+<tr><td>HLT</td><td>1</td><td class="mono">A937</td><td class="mono">022</td><td class="mono">001</td><td class="mono">7001</td></tr></table>
+CIR: E = 1 enters bit 15 and bit 0 = 1 goes to E, giving <span class="bits">1101 0100 1001 1011</span> = D49B. CIL: E = 1 enters bit 0 and bit 15 = 1 goes to E, giving <span class="bits">0101 0010 0110 1111</span> = 526F. Only SNA skips, because AC is negative.
+</details>
+<p><b>Similar:</b> AC = 5C1E, E = 0, PC = 0A5. Do CIR, CIL, CMA, INC, SPA, SNA and SZE.</p>
+<details><summary>Show answer</summary>5C1E = <span class="bits">0101 1100 0001 1110</span>. After fetch PC = 0A6.
+<table><tr><th></th><th>E</th><th>AC</th><th>PC</th><th>AR</th><th>IR</th></tr>
+<tr><td>CIR</td><td>0</td><td class="mono">2E0F</td><td class="mono">0A6</td><td class="mono">080</td><td class="mono">7080</td></tr>
+<tr><td>CIL</td><td>0</td><td class="mono">B83C</td><td class="mono">0A6</td><td class="mono">040</td><td class="mono">7040</td></tr>
+<tr><td>CMA</td><td>0</td><td class="mono">A3E1</td><td class="mono">0A6</td><td class="mono">200</td><td class="mono">7200</td></tr>
+<tr><td>INC</td><td>0</td><td class="mono">5C1F</td><td class="mono">0A6</td><td class="mono">020</td><td class="mono">7020</td></tr>
+<tr><td>SPA</td><td>0</td><td class="mono">5C1E</td><td class="mono">0A7</td><td class="mono">010</td><td class="mono">7010</td></tr>
+<tr><td>SNA</td><td>0</td><td class="mono">5C1E</td><td class="mono">0A6</td><td class="mono">008</td><td class="mono">7008</td></tr>
+<tr><td>SZE</td><td>0</td><td class="mono">5C1E</td><td class="mono">0A7</td><td class="mono">002</td><td class="mono">7002</td></tr></table>
+SPA skips because AC is positive (bit 15 = 0). SZE skips because E = 0.</details>
+</div>
+
+<div class="box ex"><span class="t">5-12 · PC = 3AF, AC = 7EC3. M[3AF] = 932E, M[32E] = 09AC, M[9AC] = 8B9F. (a) Which instruction is fetched and executed? (b) Show the binary operation done in AC. (c) Give PC, AR, DR, AC, IR, E, I and SC after the instruction.</span>
+<details><summary>Show answer</summary>(a) 9 = 1001: I = 1, opcode 001 = ADD, so the instruction is <b>ADD 32E I</b> (indirect). The effective address is M[32E] = 9AC.<br>
+(b) <span class="bits">0111 1110 1100 0011</span> (7EC3) + <span class="bits">1000 1011 1001 1111</span> (8B9F) = <b>1</b> <span class="bits">0000 1010 0110 0010</span>, so AC = 0A62 and E = 1.<br>
+(c) PC = <b>3B0</b> · AR = <b>9AC</b> · DR = <b>8B9F</b> · AC = <b>0A62</b> · IR = <b>932E</b> · E = <b>1</b> · I = <b>1</b> · SC = <b>0</b>.</details>
+<p><b>Similar:</b> PC = 1A0, AC = 1234. M[1A0] = 82F0, M[2F0] = 0435, M[435] = ABCD.</p>
+<details><summary>Show answer</summary>8 = 1000: I = 1, opcode 000, so the instruction is <b>AND 2F0 I</b>, with effective address 435.<br>
+1234 ∧ ABCD: <span class="bits">0001 0010 0011 0100</span> ∧ <span class="bits">1010 1011 1100 1101</span> = <span class="bits">0000 0010 0000 0100</span> = <b>0204</b>.<br>
+PC = 1A1 · AR = 435 · DR = ABCD · AC = 0204 · IR = 82F0 · I = 1 · SC = 0 · E unchanged (AND does not touch E).</details>
+</div>
+
+<div class="box ex"><span class="t">5-21 / 5-22 · Derive the control gates for PC, and for the memory's Write input.</span>
+<details><summary>Show answer</summary>From <a href="#s5t6">Table 5-6</a>:<br>
+<code>INR(PC) = R'T1 + RT2 + D6T6·z<sub>DR</sub> + pB9·FGI + pB8·FGO + rB4·AC(15)' + rB3·AC(15) + rB2·z<sub>AC</sub> + rB1·E'</code><br>
+<code>LD(PC) = D4T4 + D5T5</code> · <code>CLR(PC) = RT1</code><br>
+<code>Write = D3T4 + D5T4 + D6T6 + RT1</code> (every M[AR] ← …)<br>
+z<sub>DR</sub> = 1 when DR = 0, and z<sub>AC</sub> = 1 when AC = 0. The logic diagram looks like the AC gates in Figure 5-11.</details>
+<p><b>Similar:</b> derive the memory <b>Read</b> input and the control for <b>IEN</b>.</p>
+<details><summary>Show answer</summary><code>Read = R'T1 + D7'IT3 + (D0 + D1 + D2 + D6)T4</code> (every … ← M[AR]).<br>
+IEN: set with <code>pB7</code> (ION); clear with <code>pB6 + RT2</code> (IOF, and the interrupt cycle).</details>
+</div>
+
+<div class="box ex"><span class="t">5-25 · Write the Boolean function for the gates that clear the sequence counter SC, and show how they connect to SC's INR and CLR inputs (keep the number of gates minimal).</span>
+<details><summary>Show answer</summary>
+<code>CLR(SC) = RT2 + D7T3 + (D0 + D1 + D2 + D5)T5 + (D3 + D4)T4 + D6T6</code><br>
+D7T3 already covers both D7I'T3 (r) and D7IT3 (p), because I' + I = 1.<br>
+Circuit: five AND terms (RT2, D7T3, an OR of D0/D1/D2/D5 ANDed with T5, an OR of D3/D4 ANDed with T4, D6T6) go into one 5-input OR. Its output drives <b>CLR</b>, and through an inverter it drives <b>INR</b>, so SC counts up on every clock unless it is being cleared.</details>
+<p><b>Similar:</b> write the control functions for the E flip-flop.</p>
+<details><summary>Show answer</summary>E ← 0: <code>rB10</code> (CLE) · E ← E': <code>rB8</code> (CME) · E ← Cout: <code>D1T5</code> (ADD) · E ← AC(0): <code>rB7</code> (CIR) · E ← AC(15): <code>rB6</code> (CIL).</details>
+</div>
+
 <h2 id="exams">Mock exams <span class="tr" style="font-size:.7em">Deneme sınavları</span></h2>
 <p>Five full exams covering Bölüm 4–6 (about 30% Bölüm 4, 35% Bölüm 5, 35% Bölüm 6). Each one is <b>90 minutes</b> and <b>100 points</b>. Exams 1–3 are standard level; Exams 4–5 are harder. Do one in a single sitting with a timer, without opening the answer key, then grade yourself with the point breakdown. Unless a question says otherwise, all numbers in Bölüm 5–6 questions are <b>hexadecimal</b> and the computer is Mano's Basic Computer.</p>
 
